@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio</title>
     <style>
-
         @import url('https://fonts.googleapis.com/css2?family=Lavishly+Yours&display=swap');
-
 
         * {
             margin: 0;
@@ -53,6 +51,51 @@
             z-index: 2;
         }
 
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
         .raindrop {
             position: fixed;
             width: 3px;
@@ -85,6 +128,8 @@
             justify-content: space-between;
             align-items: center;
             padding: 1.5rem 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .logo {
@@ -96,6 +141,7 @@
             display: flex;
             gap: 2rem;
             list-style: none;
+            flex-wrap: wrap;
         }
 
         .nav-links a {
@@ -108,54 +154,6 @@
         .nav-links a:hover {
             color: white;
         }
-
-
-        /* About Section */
-.values {
-    padding: 5rem 2rem;
-    max-width: 75rem;
-    margin: 0 auto;
-}
-
-.values-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-}
-
-.value-card {
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(51, 65, 85, 0.6));
-    backdrop-filter: blur(16px);
-    border-radius: 1.5rem;
-    padding: 3rem 2rem;
-    text-align: center;
-    border: 1px solid rgba(71, 85, 105, 0.3);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.value-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-}
-
-.value-icon {
-    font-size: 3rem;
-    margin-bottom: 1.5rem;
-}
-
-.value-title {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #60a5fa;
-    margin-bottom: 1rem;
-}
-
-.value-description {
-    font-size: 1.125rem;
-    color: #cbd5e1;
-    line-height: 1.6;
-}
 
         .contact-btn {
             background: #3b82f6;
@@ -172,27 +170,44 @@
             background: #2563eb;
         }
 
+        /* Mobile menu */
+        .mobile-menu-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
         /* Hero Section */
         .hero {
             text-align: center;
-            padding: 8rem 2rem;
+            padding: 4rem 2rem;
+        }
+
+        .hero img {
+            max-width: 100%;
+            height: auto;
+            width: min(1080px, 90vw);
+            object-fit: cover;
         }
 
         .hero h1 {
-            font-size: 4.5rem;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: bold;
             margin-bottom: 1.5rem;
         }
 
         .hero h2 {
-            font-size: 5rem;
+            font-size: clamp(3rem, 10vw, 5rem);
             font-weight: bold;
             color: #60a5fa;
             margin-bottom: 2rem;
         }
 
         .hero p {
-            font-size: 1.5rem;
+            font-size: clamp(1rem, 3vw, 1.5rem);
             color: #9ca3af;
         }
 
@@ -208,10 +223,12 @@
             align-items: center;
             padding: 0 2rem;
             margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .section-header h2 {
-            font-size: 2.5rem;
+            font-size: clamp(1.75rem, 5vw, 2.5rem);
             font-weight: bold;
         }
 
@@ -234,10 +251,9 @@
 
         .close-grid-btn {
             position: fixed;
-            top: 50%;
-            right: 50%;
-            transform: translate(calc(45vw - 2rem), calc(-42.5vh - 2rem));
-            background: transparent;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(51, 65, 85, 0.8);
             color: #94a3b8;
             padding: 0.5rem;
             border: none;
@@ -255,7 +271,7 @@
         }
 
         .close-grid-btn:hover {
-            background: rgba(71, 85, 105, 0.3);
+            background: rgba(71, 85, 105, 0.8);
             color: white;
         }
 
@@ -279,7 +295,6 @@
             opacity: 0 !important;
         }
 
-        /* Custom scrollbar for grid view */
         .conveyor.grid-view::-webkit-scrollbar {
             width: 10px;
         }
@@ -314,17 +329,17 @@
 
         .conveyor.grid-view {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(min(20rem, 100%), 1fr));
             gap: 1.5rem;
-            padding: 5rem 3rem 3rem 3rem;
+            padding: 5rem 2rem 3rem 2rem;
             animation: none;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 90%;
+            width: 95%;
             max-width: 85rem;
-            height: 85vh;
+            height: 90vh;
             background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(20px);
             z-index: 10000;
@@ -338,8 +353,8 @@
             content: 'All Projects';
             position: absolute;
             top: 2rem;
-            left: 3rem;
-            font-size: 2rem;
+            left: 2rem;
+            font-size: clamp(1.5rem, 4vw, 2rem);
             font-weight: bold;
             color: white;
             z-index: 1;
@@ -361,7 +376,6 @@
             display: block;
         }
 
-        /* Hide raindrops when grid view is active */
         body.grid-active .raindrop {
             display: none;
         }
@@ -389,7 +403,7 @@
 
         .video-box {
             flex-shrink: 0;
-            width: 24rem;
+            width: min(24rem, 90vw);
             height: 15rem;
             margin: 0 1rem;
             background: linear-gradient(135deg, rgba(67, 56, 202, 0.4), rgba(30, 41, 59, 0.6), rgba(88, 28, 135, 0.4));
@@ -420,11 +434,6 @@
             transform: scale(1.02);
         }
 
-        .video-icon {
-            font-size: 4.5rem;
-            filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.4));
-        }
-
         /* Stats Section */
         .stats {
             padding: 5rem 2rem;
@@ -436,115 +445,98 @@
             background: linear-gradient(90deg, rgba(30, 41, 59, 0.6), rgba(51, 65, 85, 0.6));
             backdrop-filter: blur(16px);
             border-radius: 1.5rem;
-            align-items: center;
-            align-self: center;
-
-            padding: 4rem;
+            padding: 3rem 2rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(71, 85, 105, 0.3);
         }
-
 
         .stat-item {
             display: flex;
             align-items: center;
             justify-content: space-around;
-
-            margin-bottom: 0.75rem;
-            align-self: center;
+            gap: 2rem;
+            flex-wrap: wrap;
         }
 
         .stat-item p {
-            font-size: 2rem;
+            font-size: clamp(1.25rem, 4vw, 2rem);
             text-align: center;
-            font-style: light;
         }
 
         .stat-number {
-            font-size: 4.5rem;
+            font-size: clamp(3rem, 8vw, 4.5rem);
             font-weight: bold;
             margin-bottom: 0.75rem;
         }
 
         .stat-number.red { 
-            
             color: #f87171;
             text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
-            
-         }
-        .stat-number.blue { color: #60a5fa; }
-        .stat-number.yellow { color: #fbbf24; }
-
-        .stat-label {
-            color: #d1d5db;
-            font-size: 1.125rem;
-        }
-
-        /* Tools Section */
-        .tools {
-            padding: 5rem 2rem;
-        }
-
-        .tools h2 {
-            font-size: 3rem;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .tools-grid {
-            max-width: 80rem;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2.5rem;
-        }
-
-        .tool-item {
-            text-align: center;
         }
 
         .tool-icon {
-            width: 10rem;
-            height: 10rem;
+            width: min(10rem, 30vw);
+            height: min(10rem, 30vw);
             border-radius: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            font-weight: bold;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             transition: transform 0.3s;
         }
 
-        .tool-item:hover .tool-icon {
-            transform: scale(1.1);
+        .tool-icon img {
+            width: 110%;
+            height: auto;
         }
 
-        .tool-icon.ps { background: linear-gradient(135deg, #2563eb, #1e40af); }
-        .tool-icon.bl { background: linear-gradient(135deg, #ea580c, #c2410c); }
-        .tool-icon.c4 { background: linear-gradient(135deg, #475569, #1e293b); }
-        .tool-icon.mw { background: linear-gradient(135deg, #16a34a, #15803d); }
-
-        .tool-label {
-            color: #d1d5db;
-            font-size: 1.125rem;
-        }
-
-        .testimonials-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Values Section */
+        .values {
+            padding: 5rem 2rem;
             max-width: 75rem;
-            margin: 0 auto 2.5rem;
+            margin: 0 auto;
         }
 
-        .testimonials-header h2 {
-            font-size: 3rem;
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+            gap: 2rem;
+        }
+
+        .value-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(51, 65, 85, 0.6));
+            backdrop-filter: blur(16px);
+            border-radius: 1.5rem;
+            padding: 3rem 2rem;
+            text-align: center;
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+
+        .value-icon {
+            font-size: clamp(2rem, 6vw, 3rem);
+            margin-bottom: 1.5rem;
+        }
+
+        .value-title {
+            font-size: clamp(1.5rem, 4vw, 2rem);
             font-weight: bold;
+            color: #60a5fa;
+            margin-bottom: 1rem;
+        }
+
+        .value-description {
+            font-size: clamp(1rem, 2.5vw, 1.125rem);
+            color: #cbd5e1;
+            line-height: 1.6;
         }
 
         /* Connections Section */
@@ -554,7 +546,7 @@
         }
 
         .connections h2 {
-            font-size: 3rem;
+            font-size: clamp(2rem, 6vw, 3rem);
             font-weight: bold;
             margin-bottom: 3rem;
             color: white;
@@ -577,7 +569,7 @@
             padding: 1.5rem 3.5rem;
             border-radius: 3rem;
             color: white;
-            font-size: 1.25rem;
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
@@ -649,109 +641,187 @@
         .contact-float span {
             font-size: 1.875rem;
         }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(30, 41, 59, 0.95);
+                backdrop-filter: blur(16px);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+                border-radius: 0 0 1rem 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .video-section {
+                padding: 3rem 0;
+            }
+
+            .section-header {
+                padding: 0 1rem;
+            }
+
+            .stats-container {
+                padding: 2rem 1rem;
+            }
+
+            .stat-item {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .values {
+                padding: 3rem 1rem;
+            }
+
+            .connections {
+                padding: 3rem 1rem 6rem;
+            }
+
+            .connection-btn {
+                padding: 1rem 2rem;
+            }
+
+            .contact-float {
+                bottom: 1rem;
+                right: 1rem;
+                width: 3.5rem;
+                height: 3.5rem;
+            }
+
+            .conveyor.grid-view {
+                padding: 4rem 1rem 2rem 1rem;
+                width: 98%;
+                height: 95vh;
+            }
+
+            .close-grid-btn {
+                top: 1rem;
+                right: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .video-box {
+                height: 12rem;
+            }
+
+            .conveyor.grid-view .video-box {
+                height: 12rem;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav>
+    <nav class="fade-in">
         <div class="logo">Cloisme</div>
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#work">Work</a></li>
-            <li><a href="#values">About</a></li>
-            <li><a href="#connections">Connections</a></li>
+        <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home" onclick="closeMenu()">Home</a></li>
+            <li><a href="#work" onclick="closeMenu()">Work</a></li>
+            <li><a href="#values" onclick="closeMenu()">About</a></li>
+            <li><a href="#connections" onclick="closeMenu()">Connections</a></li>
         </ul>
         <button class="contact-btn" onclick="document.getElementById('connections').scrollIntoView({behavior: 'smooth'})">Contact Me</button>
     </nav>
 
     <!-- Hero Section -->
-    <div class="hero" id="home">
-        <img src="Cloisme.png" width="1080px" style="object-fit: cover;">
-        <h1 style="font-family: Lavishly Yours, cursive;  margin-bottom: 50px;">@cloisme</h1>
+    <div class="hero fade-in" id="home">
+        <img src="Cloisme.png" alt="Cloisme Portfolio">
+        <h1 style="font-family: Lavishly Yours, cursive; margin-bottom: 50px;">@cloisme</h1>
         <h2>Video Editor</h2>
         <p></p>
     </div>
 
     <!-- Video Conveyor Section -->
     <div class="video-section" id="work">
-        <div class="section-header">
+        <div class="section-header fade-in">
             <h2>My Work</h2>
             <button class="view-all-btn" id="viewAllBtn">View All</button>
         </div>
         
         <button class="close-grid-btn" id="closeGridBtn">✕</button>
-        
         <div class="grid-overlay" id="gridOverlay"></div>
         
         <div class="conveyor-container">
             <div class="conveyor" id="conveyor">
                 <!-- First set -->
-                <div class="video-box"> 
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1hLt_F5rtAyLslKHV-WpWWLiUVU9tIcVe/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+                <div class="video-box scale-in"> 
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1hLt_F5rtAyLslKHV-WpWWLiUVU9tIcVe/preview?usp=drive_link" style="border:0px;"></iframe>
                 </div>
-                <div class="video-box"> 
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1Kyih3tPCxS8RMZuKUtPWSyVDn7IHRBl_/preview?usp=sharing" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+                <div class="video-box scale-in"> 
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1Kyih3tPCxS8RMZuKUtPWSyVDn7IHRBl_/preview?usp=sharing" style="border:0px;"></iframe>
                 </div>
-                <div class="video-box">
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1kPvP2wgRbWk8gdVdvOjG1mq6AEVuusGP/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+                <div class="video-box scale-in">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1kPvP2wgRbWk8gdVdvOjG1mq6AEVuusGP/preview?usp=drive_link" style="border:0px;"></iframe>
                 </div>
-                <div class="video-box">
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1sDny3hEQoPtGhTCakh_MwZAGYoK6FpqB/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
-
+                <div class="video-box scale-in">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1sDny3hEQoPtGhTCakh_MwZAGYoK6FpqB/preview?usp=drive_link" style="border:0px;"></iframe>
                 </div>
-                <div class="video-box">
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1kgsH5d21DmYPzxvk7bopR6q01BPhLdFw/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
-
+                <div class="video-box scale-in">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1kgsH5d21DmYPzxvk7bopR6q01BPhLdFw/preview?usp=drive_link" style="border:0px;"></iframe>
                 </div>
-                <div class="video-box">
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/10Di_H9Jrtn_IHZDLVDMFBPzVxbHf1z7c/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
-
+                <div class="video-box scale-in">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/10Di_H9Jrtn_IHZDLVDMFBPzVxbHf1z7c/preview?usp=drive_link" style="border:0px;"></iframe>
                 </div>
-                <div class="video-box">
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1pxU7UeeBQzu13qRL8tZmaetS1KDhRAZh/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
-
+                <div class="video-box scale-in">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1pxU7UeeBQzu13qRL8tZmaetS1KDhRAZh/preview?usp=drive_link" style="border:0px;"></iframe>
                 </div>
-                <div class="video-box">
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1UwWNXBrpXk9xZNnDz1lL69GY3TvDtu-D/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
-
+                <div class="video-box scale-in">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1UwWNXBrpXk9xZNnDz1lL69GY3TvDtu-D/preview?usp=drive_link" style="border:0px;"></iframe>
                 </div>
-                <div class="video-box">
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1zutm1aVgzRm0LXVi721zzsB7WiTN56fK/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
-
+                <div class="video-box scale-in">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1zutm1aVgzRm0LXVi721zzsB7WiTN56fK/preview?usp=drive_link" style="border:0px;"></iframe>
                 </div>
                 <!-- Duplicate set -->
                 <div class="video-box duplicate"> 
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1hLt_F5rtAyLslKHV-WpWWLiUVU9tIcVe/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1hLt_F5rtAyLslKHV-WpWWLiUVU9tIcVe/preview?usp=drive_link" style="border:0px;"></iframe>
                 </div>
                 <div class="video-box duplicate"> 
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1Kyih3tPCxS8RMZuKUtPWSyVDn7IHRBl_/preview?usp=sharing" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1Kyih3tPCxS8RMZuKUtPWSyVDn7IHRBl_/preview?usp=sharing" style="border:0px;"></iframe>
                 </div>
                 <div class="video-box duplicate">
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1kPvP2wgRbWk8gdVdvOjG1mq6AEVuusGP/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1kPvP2wgRbWk8gdVdvOjG1mq6AEVuusGP/preview?usp=drive_link" style="border:0px;"></iframe>
                 </div>
                 <div class="video-box duplicate">
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1sDny3hEQoPtGhTCakh_MwZAGYoK6FpqB/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
-
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1sDny3hEQoPtGhTCakh_MwZAGYoK6FpqB/preview?usp=drive_link" style="border:0px;"></iframe>
                 </div>
                 <div class="video-box duplicate">
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1kgsH5d21DmYPzxvk7bopR6q01BPhLdFw/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
-
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1kgsH5d21DmYPzxvk7bopR6q01BPhLdFw/preview?usp=drive_link" style="border:0px;"></iframe>
                 </div>
                 <div class="video-box duplicate">
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/10Di_H9Jrtn_IHZDLVDMFBPzVxbHf1z7c/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
-
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/10Di_H9Jrtn_IHZDLVDMFBPzVxbHf1z7c/preview?usp=drive_link" style="border:0px;"></iframe>
                 </div>
                 <div class="video-box duplicate">
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1pxU7UeeBQzu13qRL8tZmaetS1KDhRAZh/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
-
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1pxU7UeeBQzu13qRL8tZmaetS1KDhRAZh/preview?usp=drive_link" style="border:0px;"></iframe>
                 </div>
                 <div class="video-box duplicate">
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1UwWNXBrpXk9xZNnDz1lL69GY3TvDtu-D/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
-
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1UwWNXBrpXk9xZNnDz1lL69GY3TvDtu-D/preview?usp=drive_link" style="border:0px;"></iframe>
                 </div>
                 <div class="video-box duplicate">
-                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1zutm1aVgzRm0LXVi721zzsB7WiTN56fK/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
-
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1zutm1aVgzRm0LXVi721zzsB7WiTN56fK/preview?usp=drive_link" style="border:0px;"></iframe>
                 </div>
             </div>
         </div>
@@ -759,36 +829,34 @@
 
     <!-- Stats Section -->
     <div class="stats">
-        <div class="stats-container">
-                <div class="stat-item">
-                    <div class="tool-icon">
-                        <img src="DaVinci_Resolve_Studio.png" alt="" width="110%">
-                    </div>
-                    <div class="text-container">
-                        <div class="stat-number red">2+</div>
-                        <p>years of experience</p>
-                        <div class="stat-label"></div>
-                    </div>
-                    
+        <div class="stats-container fade-in">
+            <div class="stat-item">
+                <div class="tool-icon slide-in-left">
+                    <img src="DaVinci_Resolve_Studio.png" alt="DaVinci Resolve">
                 </div>
+                <div class="text-container slide-in-right">
+                    <div class="stat-number red">2+</div>
+                    <p>years of experience</p>
+                    <div class="stat-label"></div>
+                </div>
+            </div>
         </div>
     </div>
-
 
     <!-- About Section -->
     <div class="values" id="values">
         <div class="values-grid">
-            <div class="value-card">
+            <div class="value-card fade-in">
                 <div class="value-icon">✏️</div>
                 <div class="value-title">Creativity</div>
                 <div class="value-description">Unique and worthy</div>
             </div>
-            <div class="value-card">
+            <div class="value-card fade-in">
                 <div class="value-icon">👁️</div>
                 <div class="value-title">Attention</div>
                 <div class="value-description">Creating the best in every frame</div>
             </div>
-            <div class="value-card">
+            <div class="value-card fade-in">
                 <div class="value-icon">🚀</div>
                 <div class="value-title">Delivery</div>
                 <div class="value-description">Speed and high quality</div>
@@ -796,23 +864,15 @@
         </div>
     </div>
 
-    <!-- Tools Section -->
-    <div class="tools">
-        <h2></h2>
-            <div class="tool-item">
-                
-            </div>
-    </div>
-
     <!-- Connections Section -->
     <div class="connections" id="connections">
-        <h2>Connections</h2>
+        <h2 class="fade-in">Connections</h2>
         <div class="connections-container">
-            <button class="connection-btn">
+            <button class="connection-btn scale-in">
                 Discord
                 <span class="tooltip">@cloisme</span>
             </button>
-            <button class="connection-btn">
+            <button class="connection-btn scale-in">
                 Mail
                 <span class="tooltip">contact.cloisme@gmail.com</span>
             </button>
@@ -832,6 +892,37 @@
         const gridOverlay = document.getElementById('gridOverlay');
         let isGridView = false;
 
+        // Mobile menu toggle
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.remove('active');
+        }
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Video conveyor functionality
         videoBoxes.forEach(box => {
             box.addEventListener('mouseenter', () => {
                 if (!isGridView) {
@@ -862,7 +953,6 @@
             document.body.classList.remove('grid-active');
         });
 
-        // Close when clicking overlay
         gridOverlay.addEventListener('click', () => {
             isGridView = false;
             conveyor.classList.remove('grid-view');
@@ -882,11 +972,8 @@
                 raindrop.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
                 document.body.insertBefore(raindrop, document.body.firstChild);
             }
-            
-            console.log('Created ' + raindropCount + ' raindrops');
         }
 
-        // Create raindrops when page loads
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', createRaindrops);
         } else {
