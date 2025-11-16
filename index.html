@@ -342,7 +342,7 @@
             height: 90vh;
             background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(20px);
-            z-index: 10000;
+            z-index: 100000;
             overflow-y: auto;
             border-radius: 1.5rem;
             border: 1px solid rgba(71, 85, 105, 0.5);
@@ -368,7 +368,7 @@
             bottom: 0;
             background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(10px);
-            z-index: 9999;
+            z-index: 99999;
             display: none;
         }
 
@@ -646,6 +646,7 @@
         @media (max-width: 768px) {
             nav {
                 padding: 1rem;
+                position: relative;
             }
 
             .mobile-menu-btn {
@@ -664,6 +665,7 @@
                 padding: 1rem;
                 gap: 1rem;
                 border-radius: 0 0 1rem 1rem;
+                z-index: 1000;
             }
 
             .nav-links.active {
@@ -729,6 +731,15 @@
 
             .conveyor.grid-view .video-box {
                 height: 12rem;
+            }
+
+            .connection-btn {
+                padding: 1rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .value-card {
+                padding: 2rem 1.5rem;
             }
         }
     </style>
@@ -903,7 +914,7 @@
             navLinks.classList.remove('active');
         }
 
-        // Scroll animations
+        // Scroll animations - triggers EVERY TIME element enters viewport
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -913,6 +924,9 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                } else {
+                    // Remove class when element leaves viewport so it can animate again
+                    entry.target.classList.remove('visible');
                 }
             });
         }, observerOptions);
