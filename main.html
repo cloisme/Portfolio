@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Lavishly+Yours&display=swap');
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, 
+                #1e293b 0%, 
+                #334155 25%, 
+                #475569 50%, 
+                #334155 75%, 
+                #1e293b 100%);
+            color: white;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 15% 15%, rgba(96, 165, 250, 0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at 85% 85%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        body > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .raindrop {
+            position: fixed;
+            width: 3px;
+            height: 50px;
+            background: linear-gradient(to bottom, 
+                rgba(100, 150, 200, 0) 0%, 
+                rgba(100, 150, 200, 0.3) 30%, 
+                rgba(130, 140, 180, 0.4) 50%,
+                rgba(100, 150, 200, 0.3) 70%,
+                rgba(100, 150, 200, 0) 100%);
+            border-radius: 2px;
+            animation: fall linear infinite;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px);
+            }
+            100% {
+                transform: translateY(calc(100vh + 50px));
+            }
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            font-size: 1.10rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+
+        /* About Section */
+.values {
+    padding: 5rem 2rem;
+    max-width: 75rem;
+    margin: 0 auto;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.value-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(51, 65, 85, 0.6));
+    backdrop-filter: blur(16px);
+    border-radius: 1.5rem;
+    padding: 3rem 2rem;
+    text-align: center;
+    border: 1px solid rgba(71, 85, 105, 0.3);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.value-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}
+
+.value-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.value-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #60a5fa;
+    margin-bottom: 1rem;
+}
+
+.value-description {
+    font-size: 1.125rem;
+    color: #cbd5e1;
+    line-height: 1.6;
+}
+
+        .contact-btn {
+            background: #3b82f6;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .contact-btn:hover {
+            background: #2563eb;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 8rem 2rem;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h2 {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #60a5fa;
+            margin-bottom: 2rem;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: #9ca3af;
+        }
+
+        /* Video Conveyor */
+        .video-section {
+            padding: 5rem 0;
+            overflow: hidden;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .view-all-btn {
+            background: #374151;
+            color: #e5e7eb;
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+            z-index: 10001;
+            position: relative;
+        }
+
+        .view-all-btn:hover {
+            background: #4b5563;
+        }
+
+        .close-grid-btn {
+            position: fixed;
+            top: 50%;
+            right: 50%;
+            transform: translate(calc(45vw - 2rem), calc(-42.5vh - 2rem));
+            background: transparent;
+            color: #94a3b8;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 2rem;
+            font-weight: normal;
+            z-index: 100002;
+            display: none;
+            transition: all 0.3s;
+            width: 3rem;
+            height: 3rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-grid-btn:hover {
+            background: rgba(71, 85, 105, 0.3);
+            color: white;
+        }
+
+        .close-grid-btn.show {
+            display: flex;
+        }
+
+        body.grid-active {
+            overflow: hidden;
+        }
+
+        body.grid-active .stats,
+        body.grid-active .values,
+        body.grid-active .tools,
+        body.grid-active .connections,
+        body.grid-active .contact-float,
+        body.grid-active nav,
+        body.grid-active .section-header {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+        }
+
+        /* Custom scrollbar for grid view */
+        .conveyor.grid-view::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .conveyor.grid-view::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 10px;
+        }
+
+        .conveyor.grid-view::-webkit-scrollbar-thumb {
+            background: rgba(96, 165, 250, 0.5);
+            border-radius: 10px;
+        }
+
+        .conveyor.grid-view::-webkit-scrollbar-thumb:hover {
+            background: rgba(96, 165, 250, 0.7);
+        }
+
+        .conveyor-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .conveyor {
+            display: flex;
+            animation: scroll 25s linear infinite;
+        }
+
+        .conveyor.paused {
+            animation-play-state: paused;
+        }
+
+        .conveyor.grid-view {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+            gap: 1.5rem;
+            padding: 5rem 3rem 3rem 3rem;
+            animation: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 85rem;
+            height: 85vh;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 10000;
+            overflow-y: auto;
+            border-radius: 1.5rem;
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+        }
+
+        .conveyor.grid-view::before {
+            content: 'All Projects';
+            position: absolute;
+            top: 2rem;
+            left: 3rem;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            z-index: 1;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: none;
+        }
+
+        .grid-overlay.show {
+            display: block;
+        }
+
+        /* Hide raindrops when grid view is active */
+        body.grid-active .raindrop {
+            display: none;
+        }
+
+        .conveyor.grid-view .video-box {
+            margin: 0;
+        }
+
+        .video-box.duplicate {
+            display: flex;
+        }
+
+        .conveyor.grid-view .video-box.duplicate {
+            display: none;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .video-box {
+            flex-shrink: 0;
+            width: 24rem;
+            height: 15rem;
+            margin: 0 1rem;
+            background: linear-gradient(135deg, rgba(67, 56, 202, 0.4), rgba(30, 41, 59, 0.6), rgba(88, 28, 135, 0.4));
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(71, 85, 105, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .conveyor.grid-view .video-box {
+            width: 100%;
+            height: 14rem;
+            margin: 0;
+        }
+
+        .video-box:hover {
+            transform: scale(1.05);
+            border-color: rgba(59, 130, 246, 0.7);
+        }
+
+        .conveyor.grid-view .video-box:hover {
+            transform: scale(1.02);
+        }
+
+        .video-icon {
+            font-size: 4.5rem;
+            filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.4));
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 5rem 2rem;
+        }
+
+        .stats-container {
+            max-width: 60rem;
+            margin: 0 auto;
+            background: linear-gradient(90deg, rgba(30, 41, 59, 0.6), rgba(51, 65, 85, 0.6));
+            backdrop-filter: blur(16px);
+            border-radius: 1.5rem;
+            align-items: center;
+            align-self: center;
+
+            padding: 4rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(71, 85, 105, 0.3);
+        }
+
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+
+            margin-bottom: 0.75rem;
+            align-self: center;
+        }
+
+        .stat-item p {
+            font-size: 2rem;
+            text-align: center;
+            font-style: light;
+        }
+
+        .stat-number {
+            font-size: 4.5rem;
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-number.red { 
+            
+            color: #f87171;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+         }
+        .stat-number.blue { color: #60a5fa; }
+        .stat-number.yellow { color: #fbbf24; }
+
+        .stat-label {
+            color: #d1d5db;
+            font-size: 1.125rem;
+        }
+
+        /* Tools Section */
+        .tools {
+            padding: 5rem 2rem;
+        }
+
+        .tools h2 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .tools-grid {
+            max-width: 80rem;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem;
+        }
+
+        .tool-item {
+            text-align: center;
+        }
+
+        .tool-icon {
+            width: 10rem;
+            height: 10rem;
+            border-radius: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s;
+        }
+
+        .tool-item:hover .tool-icon {
+            transform: scale(1.1);
+        }
+
+        .tool-icon.ps { background: linear-gradient(135deg, #2563eb, #1e40af); }
+        .tool-icon.bl { background: linear-gradient(135deg, #ea580c, #c2410c); }
+        .tool-icon.c4 { background: linear-gradient(135deg, #475569, #1e293b); }
+        .tool-icon.mw { background: linear-gradient(135deg, #16a34a, #15803d); }
+
+        .tool-label {
+            color: #d1d5db;
+            font-size: 1.125rem;
+        }
+
+        .testimonials-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 75rem;
+            margin: 0 auto 2.5rem;
+        }
+
+        .testimonials-header h2 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        /* Connections Section */
+        .connections {
+            padding: 5rem 2rem 8rem;
+            text-align: center;
+        }
+
+        .connections h2 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .connections-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            max-width: 50rem;
+            margin: 0 auto;
+        }
+
+        .connection-btn {
+            position: relative;
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            padding: 1.5rem 3.5rem;
+            border-radius: 3rem;
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        .connection-btn:hover {
+            background: rgba(51, 65, 85, 0.8);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.7);
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            z-index: 100;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(15, 23, 42, 0.95);
+        }
+
+        .connection-btn:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* Contact Button */
+        .contact-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 4rem;
+            height: 4rem;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .contact-float:hover {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            transform: scale(1.1);
+        }
+
+        .contact-float span {
+            font-size: 1.875rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">Cloisme</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#values">About</a></li>
+            <li><a href="#connections">Connections</a></li>
+        </ul>
+        <button class="contact-btn" onclick="document.getElementById('connections').scrollIntoView({behavior: 'smooth'})">Contact Me</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero" id="home">
+        <img src="Cloisme.png" width="1080px" style="object-fit: cover;">
+        <h1 style="font-family: Lavishly Yours, cursive;  margin-bottom: 50px;">@cloisme</h1>
+        <h2>Video Editor</h2>
+        <p></p>
+    </div>
+
+    <!-- Video Conveyor Section -->
+    <div class="video-section" id="work">
+        <div class="section-header">
+            <h2>My Work</h2>
+            <button class="view-all-btn" id="viewAllBtn">View All</button>
+        </div>
+        
+        <button class="close-grid-btn" id="closeGridBtn">✕</button>
+        
+        <div class="grid-overlay" id="gridOverlay"></div>
+        
+        <div class="conveyor-container">
+            <div class="conveyor" id="conveyor">
+                <!-- First set -->
+                <div class="video-box"> 
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1hLt_F5rtAyLslKHV-WpWWLiUVU9tIcVe/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+                </div>
+                <div class="video-box"> 
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1Kyih3tPCxS8RMZuKUtPWSyVDn7IHRBl_/preview?usp=sharing" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+                </div>
+                <div class="video-box">
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1kPvP2wgRbWk8gdVdvOjG1mq6AEVuusGP/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+                </div>
+                <div class="video-box">
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1sDny3hEQoPtGhTCakh_MwZAGYoK6FpqB/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+
+                </div>
+                <div class="video-box">
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1kgsH5d21DmYPzxvk7bopR6q01BPhLdFw/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+
+                </div>
+                <div class="video-box">
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/10Di_H9Jrtn_IHZDLVDMFBPzVxbHf1z7c/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+
+                </div>
+                <div class="video-box">
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1pxU7UeeBQzu13qRL8tZmaetS1KDhRAZh/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+
+                </div>
+                <div class="video-box">
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1UwWNXBrpXk9xZNnDz1lL69GY3TvDtu-D/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+
+                </div>
+                <div class="video-box">
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1zutm1aVgzRm0LXVi721zzsB7WiTN56fK/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+
+                </div>
+                <!-- Duplicate set -->
+                <div class="video-box duplicate"> 
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1hLt_F5rtAyLslKHV-WpWWLiUVU9tIcVe/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+                </div>
+                <div class="video-box duplicate"> 
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1Kyih3tPCxS8RMZuKUtPWSyVDn7IHRBl_/preview?usp=sharing" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+                </div>
+                <div class="video-box duplicate">
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1kPvP2wgRbWk8gdVdvOjG1mq6AEVuusGP/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+                </div>
+                <div class="video-box duplicate">
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1sDny3hEQoPtGhTCakh_MwZAGYoK6FpqB/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+
+                </div>
+                <div class="video-box duplicate">
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1kgsH5d21DmYPzxvk7bopR6q01BPhLdFw/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+
+                </div>
+                <div class="video-box duplicate">
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/10Di_H9Jrtn_IHZDLVDMFBPzVxbHf1z7c/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+
+                </div>
+                <div class="video-box duplicate">
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1pxU7UeeBQzu13qRL8tZmaetS1KDhRAZh/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+
+                </div>
+                <div class="video-box duplicate">
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1UwWNXBrpXk9xZNnDz1lL69GY3TvDtu-D/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+
+                </div>
+                <div class="video-box duplicate">
+                    <iframe name="myiFrame" width="100%" height="100%" src="https://drive.google.com/file/d/1zutm1aVgzRm0LXVi721zzsB7WiTN56fK/preview?usp=drive_link" scrolling="no" marginwidth="0" marginheight="0" style="border:0px none #ffffff;"></iframe>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats">
+        <div class="stats-container">
+                <div class="stat-item">
+                    <div class="tool-icon">
+                        <img src="DaVinci_Resolve_Studio.png" alt="" width="110%">
+                    </div>
+                    <div class="text-container">
+                        <div class="stat-number red">2+</div>
+                        <p>years of experience</p>
+                        <div class="stat-label"></div>
+                    </div>
+                    
+                </div>
+        </div>
+    </div>
+
+
+    <!-- About Section -->
+    <div class="values" id="values">
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">✏️</div>
+                <div class="value-title">Creativity</div>
+                <div class="value-description">Unique and worthy</div>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">👁️</div>
+                <div class="value-title">Attention</div>
+                <div class="value-description">Creating the best in every frame</div>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🚀</div>
+                <div class="value-title">Delivery</div>
+                <div class="value-description">Speed and high quality</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tools Section -->
+    <div class="tools">
+        <h2></h2>
+            <div class="tool-item">
+                
+            </div>
+    </div>
+
+    <!-- Connections Section -->
+    <div class="connections" id="connections">
+        <h2>Connections</h2>
+        <div class="connections-container">
+            <button class="connection-btn">
+                Discord
+                <span class="tooltip">@cloisme</span>
+            </button>
+            <button class="connection-btn">
+                Mail
+                <span class="tooltip">contact.cloisme@gmail.com</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Contact Button -->
+    <button class="contact-float" onclick="document.getElementById('connections').scrollIntoView({behavior: 'smooth'})">
+        <span>✉️</span>
+    </button>
+
+    <script>
+        const conveyor = document.getElementById('conveyor');
+        const videoBoxes = document.querySelectorAll('.video-box');
+        const viewAllBtn = document.getElementById('viewAllBtn');
+        const closeGridBtn = document.getElementById('closeGridBtn');
+        const gridOverlay = document.getElementById('gridOverlay');
+        let isGridView = false;
+
+        videoBoxes.forEach(box => {
+            box.addEventListener('mouseenter', () => {
+                if (!isGridView) {
+                    conveyor.classList.add('paused');
+                }
+            });
+
+            box.addEventListener('mouseleave', () => {
+                if (!isGridView) {
+                    conveyor.classList.remove('paused');
+                }
+            });
+        });
+
+        viewAllBtn.addEventListener('click', () => {
+            isGridView = true;
+            conveyor.classList.add('grid-view');
+            closeGridBtn.classList.add('show');
+            gridOverlay.classList.add('show');
+            document.body.classList.add('grid-active');
+        });
+
+        closeGridBtn.addEventListener('click', () => {
+            isGridView = false;
+            conveyor.classList.remove('grid-view');
+            closeGridBtn.classList.remove('show');
+            gridOverlay.classList.remove('show');
+            document.body.classList.remove('grid-active');
+        });
+
+        // Close when clicking overlay
+        gridOverlay.addEventListener('click', () => {
+            isGridView = false;
+            conveyor.classList.remove('grid-view');
+            closeGridBtn.classList.remove('show');
+            gridOverlay.classList.remove('show');
+            document.body.classList.remove('grid-active');
+        });
+
+        // Create raindrops
+        function createRaindrops() {
+            const raindropCount = 70;
+            
+            for (let i = 0; i < raindropCount; i++) {
+                const raindrop = document.createElement('div');
+                raindrop.className = 'raindrop';
+                raindrop.style.left = Math.random() * 100 + '%';
+                raindrop.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
+                document.body.insertBefore(raindrop, document.body.firstChild);
+            }
+            
+            console.log('Created ' + raindropCount + ' raindrops');
+        }
+
+        // Create raindrops when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', createRaindrops);
+        } else {
+            createRaindrops();
+        }
+    </script>
+</body>
+</html>
