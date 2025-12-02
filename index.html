@@ -3,204 +3,678 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio — Fixed Version</title>
-
+    <title>Portfolio — Cloisme</title>
     <style>
-        body {
+        /* Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Lavishly+Yours&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
+        * {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #0a0a0a;
-            color: white;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
             scroll-behavior: smooth;
         }
 
-        /* NAVBAR */
-        nav {
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg,
+                #1e293b 0%,
+                #334155 25%,
+                #475569 50%,
+                #334155 75%,
+                #1e293b 100%);
+            color: white;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* subtle glow/background layers */
+        body::before {
+            content: '';
             position: fixed;
             top: 0;
-            width: 100%;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 15% 15%, rgba(96, 165, 250, 0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at 85% 85%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        body > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Scroll animations */
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        .slide-in-left { opacity: 0; transform: translateX(-50px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .slide-in-left.visible { opacity: 1; transform: translateX(0); }
+
+        .slide-in-right { opacity: 0; transform: translateX(50px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .slide-in-right.visible { opacity: 1; transform: translateX(0); }
+
+        .scale-in { opacity: 0; transform: scale(0.8); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .scale-in.visible { opacity: 1; transform: scale(1); }
+
+        /* raindrop element */
+        .raindrop {
+            position: fixed;
+            width: 3px;
+            height: 50px;
+            background: linear-gradient(to bottom,
+                rgba(100, 150, 200, 0) 0%,
+                rgba(100, 150, 200, 0.3) 30%,
+                rgba(130, 140, 180, 0.4) 50%,
+                rgba(100, 150, 200, 0.3) 70%,
+                rgba(100, 150, 200, 0) 100%);
+            border-radius: 2px;
+            animation: fall linear infinite;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.35;
+            will-change: transform;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-60px); }
+            100% { transform: translateY(calc(100vh + 60px)); }
+        }
+
+        /* Navigation */
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 40px;
-            background: rgba(10, 10, 10, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
+            padding: 1.5rem 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        nav a {
+        .logo { font-size: 1.5rem; font-weight: bold; }
+
+        .nav-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+        .nav-links a { color: #cbd5e1; font-size: 1.10rem; text-decoration: none; transition: color 0.3s; }
+        .nav-links a:hover { color: white; }
+
+        .contact-btn {
+            background: #3b82f6;
             color: white;
-            text-decoration: none;
-            margin-left: 25px;
-            font-size: 18px;
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        .contact-btn:hover { background: #2563eb; }
+
+        .mobile-menu-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
 
-        /* HERO */
-        #hero {
-            height: 100vh;
-            display: flex;
+        /* Hero Section */
+        .hero { text-align: center; padding: 4rem 2rem; }
+        .hero img { max-width: 100%; height: auto; width: min(1080px, 90vw); object-fit: cover; }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: bold; margin-bottom: 50px; font-family: 'Lavishly Yours', cursive; }
+        .hero h2 { font-size: clamp(3rem, 10vw, 5rem); font-weight: bold; color: #60a5fa; margin-bottom: 2rem; }
+        .hero p { font-size: clamp(1rem, 3vw, 1.5rem); color: #9ca3af; }
+
+        /* Video Conveyor */
+        .video-section { padding: 5rem 0; overflow: hidden; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem; }
+        .section-header h2 { font-size: clamp(1.75rem, 5vw, 2.5rem); font-weight: bold; }
+
+        .view-all-btn {
+            background: #374151;
+            color: #e5e7eb;
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+            z-index: 10001;
+            position: relative;
+        }
+        .view-all-btn:hover { background: #4b5563; }
+
+        .close-grid-btn {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(51, 65, 85, 0.8);
+            color: #94a3b8;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 2rem;
+            font-weight: normal;
+            z-index: 100002;
+            display: none;
+            transition: all 0.3s;
+            width: 3rem;
+            height: 3rem;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            text-align: center;
-            padding-top: 100px;
         }
+        .close-grid-btn:hover { background: rgba(71, 85, 105, 0.8); color: white; }
+        .close-grid-btn.show { display: flex; }
 
-        /* SEAMLESS CAROUSEL */
-        .carousel-wrapper {
-            width: 100%;
+        body.grid-active {
             overflow: hidden;
-            padding: 40px 0;
-            margin-top: 40px;
+        }
+        body.grid-active .stats,
+        body.grid-active .values,
+        body.grid-active .tools,
+        body.grid-active .connections,
+        body.grid-active .contact-float,
+        body.grid-active nav,
+        body.grid-active .section-header {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
         }
 
-        .carousel-track {
+        .conveyor-container { position: relative; width: 100%; }
+
+        .conveyor {
             display: flex;
-            width: max-content;
-            animation: scroll 20s linear infinite;
+            animation: scroll 40s linear infinite;
+            gap: 1rem;
+            will-change: transform;
         }
 
-        .carousel-track img {
-            width: 200px;
-            margin: 0 30px;
-            filter: brightness(0.9);
+        .conveyor.paused { animation-play-state: paused; }
+
+        .conveyor.grid-view {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(20rem, 100%), 1fr));
+            gap: 1.5rem;
+            padding: 5rem 2rem 3rem 2rem;
+            animation: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 95%;
+            max-width: 85rem;
+            height: 90vh;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 100000;
+            overflow-y: auto;
+            border-radius: 1.5rem;
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
         }
+
+        .conveyor.grid-view::before {
+            content: 'All Projects';
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: bold;
+            color: white;
+            z-index: 1;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 99999;
+            display: none;
+        }
+        .grid-overlay.show { display: block; }
+
+        body.grid-active .raindrop { display: none; }
+
+        .conveyor.grid-view .video-box { margin: 0; }
+
+        .video-box.duplicate { display: flex; }
+        .conveyor.grid-view .video-box.duplicate { display: none; }
 
         @keyframes scroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
 
-        /* PROJECTS */
-        #projects {
-            padding: 120px 40px;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .project-card {
-            background: #111;
-            border-radius: 15px;
-            padding: 20px;
-            transition: transform 0.2s ease;
-        }
-
-        .project-card:hover {
-            transform: scale(1.03);
-        }
-
-        .project-card img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-
-        /* VIEW ALL BUTTON */
-        .view-all-btn {
-            margin-top: 30px;
-            padding: 12px 24px;
-            background: white;
-            color: black;
-            border-radius: 8px;
-            font-size: 18px;
-            border: none;
+        .video-box {
+            flex-shrink: 0;
+            width: min(24rem, 90vw);
+            height: 15rem;
+            margin: 0 1rem;
+            background: linear-gradient(135deg, rgba(67, 56, 202, 0.4), rgba(30, 41, 59, 0.6), rgba(88, 28, 135, 0.4));
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(71, 85, 105, 0.5);
             cursor: pointer;
-            transition: 0.15s ease;
+            transition: all 0.3s;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
         }
 
-        .view-all-btn:hover {
-            transform: scale(1.05);
+        .conveyor.grid-view .video-box {
+            width: 100%;
+            height: 14rem;
+            margin: 0;
         }
 
-        /* CONTACT FLOAT */
+        .video-box:hover { transform: scale(1.05); border-color: rgba(59, 130, 246, 0.7); }
+        .conveyor.grid-view .video-box:hover { transform: scale(1.02); }
+
+        /* Stats Section */
+        .stats { padding: 5rem 2rem; }
+        .stats-container { max-width: 60rem; margin: 0 auto; background: linear-gradient(90deg, rgba(30, 41, 59, 0.6), rgba(51, 65, 85, 0.6)); backdrop-filter: blur(16px); border-radius: 1.5rem; padding: 3rem 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border: 1px solid rgba(71, 85, 105, 0.3); }
+
+        .stat-item { display: flex; align-items: center; justify-content: space-around; gap: 2rem; flex-wrap: wrap; }
+        .stat-item p { font-size: clamp(1.25rem, 4vw, 2rem); text-align: center; }
+        .stat-number { font-size: clamp(3rem, 8vw, 4.5rem); font-weight: bold; margin-bottom: 0.75rem; }
+        .stat-number.red { color: #f87171; text-align: center; display: flex; align-items: center; justify-content: center; }
+
+        .tool-icon { width: min(10rem, 30vw); height: min(10rem, 30vw); border-radius: 1.5rem; display: flex; align-items: center; justify-content: center; transition: transform 0.3s; }
+        .tool-icon img { width: 110%; height: auto; }
+
+        /* Values */
+        .values { padding: 5rem 2rem; max-width: 75rem; margin: 0 auto; }
+        .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 2rem; }
+        .value-card { background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(51, 65, 85, 0.6)); backdrop-filter: blur(16px); border-radius: 1.5rem; padding: 3rem 2rem; text-align: center; border: 1px solid rgba(71, 85, 105, 0.3); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); transition: transform 0.3s, box-shadow 0.3s; }
+        .value-card:hover { transform: translateY(-5px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); }
+        .value-icon { font-size: clamp(2rem, 6vw, 3rem); margin-bottom: 1.5rem; }
+        .value-title { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: bold; color: #60a5fa; margin-bottom: 1rem; }
+        .value-description { font-size: clamp(1rem, 2.5vw, 1.125rem); color: #cbd5e1; line-height: 1.6; }
+
+        /* Connections */
+        .connections { padding: 5rem 2rem 8rem; text-align: center; }
+        .connections h2 { font-size: clamp(2rem, 6vw, 3rem); font-weight: bold; margin-bottom: 3rem; color: white; }
+        .connections-container { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; max-width: 50rem; margin: 0 auto; }
+
+        .connection-btn {
+            position: relative;
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            padding: 1.5rem 3.5rem;
+            border-radius: 3rem;
+            color: white;
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+        .connection-btn:hover { background: rgba(51, 65, 85, 0.8); transform: translateY(-3px); box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.7); }
+
+        .tooltip {
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            z-index: 100;
+        }
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(15, 23, 42, 0.95);
+        }
+        .connection-btn:hover .tooltip { opacity: 1; }
+
+        /* Floating contact */
         .contact-float {
             position: fixed;
-            right: 25px;
-            bottom: 25px;
-            background: #ff4747;
-            padding: 15px 25px;
-            color: white;
-            border-radius: 50px;
+            bottom: 2rem;
+            right: 2rem;
+            width: 4rem;
+            height: 4rem;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            font-size: 18px;
-            transition: 0.2s ease;
-            z-index: 999;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .contact-float:hover { background: linear-gradient(135deg, #2563eb, #1e40af); transform: scale(1.1); }
+        .contact-float span { font-size: 1.875rem; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav { padding: 1rem; position: relative; }
+            .mobile-menu-btn { display: block; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(30, 41, 59, 0.95);
+                backdrop-filter: blur(16px);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+                border-radius: 0 0 1rem 1rem;
+                z-index: 1000;
+            }
+            .nav-links.active { display: flex; }
+            .hero { padding: 2rem 1rem; }
+            .video-section { padding: 3rem 0; }
+            .section-header { padding: 0 1rem; }
+            .stats-container { padding: 2rem 1rem; }
+            .stat-item { flex-direction: column; gap: 1rem; }
+            .values { padding: 3rem 1rem; }
+            .connections { padding: 3rem 1rem 6rem; }
+            .connection-btn { padding: 1rem 2rem; }
+            .contact-float { bottom: 1rem; right: 1rem; width: 3.5rem; height: 3.5rem; }
+            .conveyor.grid-view { padding: 4rem 1rem 2rem 1rem; width: 98%; height: 95vh; }
+            .close-grid-btn { top: 1rem; right: 1rem; }
         }
 
-        .contact-float:hover {
-            transform: scale(1.08);
-            background: #ff2f2f;
+        @media (max-width: 480px) {
+            .video-box { height: 12rem; }
+            .conveyor.grid-view .video-box { height: 12rem; }
+            .connection-btn { padding: 1rem 1.5rem; font-size: 0.9rem; }
+            .value-card { padding: 2rem 1.5rem; }
         }
     </style>
 </head>
-
 <body>
-    <nav>
-        <div class="logo">My Portfolio</div>
-        <div>
-            <a href="#hero">Home</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
-        </div>
+    <!-- Navigation -->
+    <nav class="fade-in">
+        <div class="logo">Cloisme</div>
+        <button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home" onclick="closeMenu()">Home</a></li>
+            <li><a href="#work" onclick="closeMenu()">Work</a></li>
+            <li><a href="#values" onclick="closeMenu()">About</a></li>
+            <li><a href="#connections" onclick="closeMenu()">Connections</a></li>
+        </ul>
+        <button class="contact-btn" onclick="document.getElementById('connections').scrollIntoView({behavior: 'smooth'})">Contact Me</button>
     </nav>
 
-    <section id="hero">
-        <h1>Hi, I’m Daniel</h1>
-        <p>Full‑Stack Developer & UI Designer</p>
+    <!-- Hero Section -->
+    <section class="hero fade-in" id="home" aria-labelledby="hero-title">
+        <img src="https://closportfolio.vercel.app/Cloisme.png" alt="Cloisme Portfolio screenshot" />
+        <h1 id="hero-title">@cloisme</h1>
+        <h2>Video Editor</h2>
+        <p class="hero-sub"></p>
+    </section>
 
-        <div class="carousel-wrapper">
-            <div class="carousel-track">
-                <img src="img1.png" alt="tech logo" />
-                <img src="img2.png" alt="tech logo" />
-                <img src="img3.png" alt="tech logo" />
-                <img src="img4.png" alt="tech logo" />
+    <!-- Video Conveyor Section -->
+    <section class="video-section" id="work">
+        <div class="section-header fade-in">
+            <h2>My Work</h2>
+            <button class="view-all-btn" id="viewAllBtn" aria-controls="conveyor">View All</button>
+        </div>
 
-                <!-- duplicated for seamless infinite loop -->
-                <img src="img1.png" alt="tech logo" />
-                <img src="img2.png" alt="tech logo" />
-                <img src="img3.png" alt="tech logo" />
-                <img src="img4.png" alt="tech logo" />
+        <button class="close-grid-btn" id="closeGridBtn" aria-label="Close grid">✕</button>
+        <div class="grid-overlay" id="gridOverlay" tabindex="-1" aria-hidden="true"></div>
+
+        <div class="conveyor-container">
+            <div class="conveyor" id="conveyor" aria-live="polite">
+                <!-- First set -->
+                <div class="video-box scale-in">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1hLt_F5rtAyLslKHV-WpWWLiUVU9tIcVe/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 1"></iframe>
+                </div>
+                <div class="video-box scale-in">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1Kyih3tPCxS8RMZuKUtPWSyVDn7IHRBl_/preview?usp=sharing" style="border:0;" loading="lazy" title="Project 2"></iframe>
+                </div>
+                <div class="video-box scale-in">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1sDny3hEQoPtGhTCakh_MwZAGYoK6FpqB/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 3"></iframe>
+                </div>
+                <div class="video-box scale-in">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1FjtdMxqfjJeE6n1TbGZJbarmboytg_Z2/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 4"></iframe>
+                </div>
+                <div class="video-box scale-in">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1mb7vcJn5ReF9-9PjmIeloxs0g6a5KTCN/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 5"></iframe>
+                </div>
+                <div class="video-box scale-in">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1pxU7UeeBQzu13qRL8tZmaetS1KDhRAZh/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 6"></iframe>
+                </div>
+                <div class="video-box scale-in">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1UwWNXBrpXk9xZNnDz1lL69GY3TvDtu-D/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 7"></iframe>
+                </div>
+                <div class="video-box scale-in">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1zutm1aVgzRm0LXVi721zzsB7WiTN56fK/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 8"></iframe>
+                </div>
+                <div class="video-box scale-in">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1QQJgQDo1C365VLso12vU18QipBv-Azik/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 9"></iframe>
+                </div>
+
+                <!-- Duplicate set to create smooth infinite scroll -->
+                <div class="video-box duplicate">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1hLt_F5rtAyLslKHV-WpWWLiUVU9tIcVe/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 1 (dup)"></iframe>
+                </div>
+                <div class="video-box duplicate">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1Kyih3tPCxS8RMZuKUtPWSyVDn7IHRBl_/preview?usp=sharing" style="border:0;" loading="lazy" title="Project 2 (dup)"></iframe>
+                </div>
+                <div class="video-box duplicate">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1mb7vcJn5ReF9-9PjmIeloxs0g6a5KTCN/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 5 (dup)"></iframe>
+                </div>
+                <div class="video-box duplicate">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1sDny3hEQoPtGhTCakh_MwZAGYoK6FpqB/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 3 (dup)"></iframe>
+                </div>
+                <div class="video-box duplicate">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1FjtdMxqfjJeE6n1TbGZJbarmboytg_Z2/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 4 (dup)"></iframe>
+                </div>
+                <div class="video-box duplicate">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/10Di_H9Jrtn_IHZDLVDMFBPzVxbHf1z7c/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project X (dup)"></iframe>
+                </div>
+                <div class="video-box duplicate">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1pxU7UeeBQzu13qRL8tZmaetS1KDhRAZh/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 6 (dup)"></iframe>
+                </div>
+                <div class="video-box duplicate">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1UwWNXBrpXk9xZNnDz1lL69GY3TvDtu-D/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 7 (dup)"></iframe>
+                </div>
+                <div class="video-box duplicate">
+                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1zutm1aVgzRm0LXVi721zzsB7WiTN56fK/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 8 (dup)"></iframe>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="projects">
-        <h2>Projects</h2>
-        
-        <div class="projects-grid">
-            <div class="project-card">
-                <img src="project1.png" alt="Project" />
-                <h3>Project 1</h3>
-                <p>Description of project 1.</p>
-            </div>
-
-            <div class="project-card">
-                <img src="project2.png" alt="Project" />
-                <h3>Project 2</h3>
-                <p>Description of project 2.</p>
-            </div>
-
-            <div class="project-card">
-                <img src="project3.png" alt="Project" />
-                <h3>Project 3</h3>
-                <p>Description of project 3.</p>
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container fade-in">
+            <div class="stat-item">
+                <div class="tool-icon slide-in-left">
+                    <img src="DaVinci_Resolve_Studio.png" alt="DaVinci Resolve logo" />
+                </div>
+                <div class="text-container slide-in-right">
+                    <div class="stat-number red">2+</div>
+                    <p>years of experience</p>
+                </div>
             </div>
         </div>
-
-        <button class="view-all-btn" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">View All</button>
     </section>
 
-    <section id="contact" style="padding: 120px 40px;">
-        <h2>Contact</h2>
-        <p>Email me at: example@example.com</p>
+    <!-- About Section -->
+    <section class="values" id="values">
+        <div class="values-grid">
+            <div class="value-card fade-in">
+                <div class="value-icon">✏️</div>
+                <div class="value-title">Creativity</div>
+                <div class="value-description">Unique and worthy</div>
+            </div>
+            <div class="value-card fade-in">
+                <div class="value-icon">👁️</div>
+                <div class="value-title">Attention</div>
+                <div class="value-description">Creating the best in every frame</div>
+            </div>
+            <div class="value-card fade-in">
+                <div class="value-icon">🚀</div>
+                <div class="value-title">Delivery</div>
+                <div class="value-description">Speed and high quality</div>
+            </div>
+        </div>
     </section>
 
-    <button class="contact-float" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact</button>
+    <!-- Connections Section -->
+    <section class="connections" id="connections">
+        <h2 class="fade-in">Connections</h2>
+        <div class="connections-container">
+            <button class="connection-btn scale-in" aria-label="Discord username">
+                Discord
+                <span class="tooltip" role="tooltip">@cloisme</span>
+            </button>
+            <button class="connection-btn scale-in" aria-label="Mail address">
+                Mail
+                <span class="tooltip" role="tooltip">contact.cloisme@gmail.com</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Contact Button -->
+    <button class="contact-float" onclick="document.getElementById('connections').scrollIntoView({behavior: 'smooth'})" aria-label="Contact">
+        <span>✉️</span>
+    </button>
+
+    <script>
+        // Elements
+        const conveyor = document.getElementById('conveyor');
+        const viewAllBtn = document.getElementById('viewAllBtn');
+        const closeGridBtn = document.getElementById('closeGridBtn');
+        const gridOverlay = document.getElementById('gridOverlay');
+
+        // Convert NodeList to array for robust iteration across browsers
+        const videoBoxes = Array.from(document.querySelectorAll('.video-box'));
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.remove('active');
+        }
+
+        // Scroll animations - triggers EVERY time element enters viewport
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                } else {
+                    // allow re-animation when element leaves/enters again
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Video conveyor functionality: pause on hover (only when not in grid view)
+        let isGridView = false;
+        videoBoxes.forEach(box => {
+            box.addEventListener('mouseenter', () => {
+                if (!isGridView) {
+                    conveyor.classList.add('paused');
+                }
+            });
+            box.addEventListener('mouseleave', () => {
+                if (!isGridView) {
+                    conveyor.classList.remove('paused');
+                }
+            });
+        });
+
+        // View all (grid) controls
+        viewAllBtn.addEventListener('click', () => {
+            isGridView = true;
+            conveyor.classList.add('grid-view');
+            closeGridBtn.classList.add('show');
+            gridOverlay.classList.add('show');
+            document.body.classList.add('grid-active');
+            // trap focus could be added here for a11y improvements
+        });
+
+        function closeGrid() {
+            isGridView = false;
+            conveyor.classList.remove('grid-view');
+            closeGridBtn.classList.remove('show');
+            gridOverlay.classList.remove('show');
+            document.body.classList.remove('grid-active');
+        }
+
+        closeGridBtn.addEventListener('click', closeGrid);
+        gridOverlay.addEventListener('click', closeGrid);
+
+        // Create raindrops (lightweight)
+        function createRaindrops() {
+            const raindropCount = 50; // reduced for performance
+            const fragment = document.createDocumentFragment();
+
+            for (let i = 0; i < raindropCount; i++) {
+                const raindrop = document.createElement('div');
+                raindrop.className = 'raindrop';
+                raindrop.style.left = Math.random() * 100 + '%';
+                // random duration between 2.5s and 4.5s
+                const dur = (Math.random() * 2 + 2.5).toFixed(2) + 's';
+                raindrop.style.animationDuration = dur;
+                // stagger start
+                raindrop.style.animationDelay = (Math.random() * 4).toFixed(2) + 's';
+                fragment.appendChild(raindrop);
+            }
+
+            // Insert behind the rest of body children but after ::before (z-index handling in CSS)
+            document.body.insertBefore(fragment, document.body.firstChild);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', createRaindrops);
+        } else {
+            createRaindrops();
+        }
+    </script>
 </body>
 </html>
