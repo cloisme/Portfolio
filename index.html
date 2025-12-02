@@ -1,997 +1,505 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Lavishly+Yours&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, 
-                #1e293b 0%, 
-                #334155 25%, 
-                #475569 50%, 
-                #334155 75%, 
-                #1e293b 100%);
-            color: white;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(ellipse at 15% 15%, rgba(96, 165, 250, 0.15) 0%, transparent 40%),
-                radial-gradient(ellipse at 85% 85%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
-                radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        body > * {
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Scroll animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .slide-in-left {
-            opacity: 0;
-            transform: translateX(-50px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .slide-in-left.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .slide-in-right {
-            opacity: 0;
-            transform: translateX(50px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .slide-in-right.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .scale-in {
-            opacity: 0;
-            transform: scale(0.8);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .scale-in.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .raindrop {
-            position: fixed;
-            width: 3px;
-            height: 50px;
-            background: linear-gradient(to bottom, 
-                rgba(100, 150, 200, 0) 0%, 
-                rgba(100, 150, 200, 0.3) 30%, 
-                rgba(130, 140, 180, 0.4) 50%,
-                rgba(100, 150, 200, 0.3) 70%,
-                rgba(100, 150, 200, 0) 100%);
-            border-radius: 2px;
-            animation: fall linear infinite;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.4;
-        }
-
-        @keyframes fall {
-            0% {
-                transform: translateY(-50px);
-            }
-            100% {
-                transform: translateY(calc(100vh + 50px));
-            }
-        }
-
-        /* Navigation */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            flex-wrap: wrap;
-        }
-
-        .nav-links a {
-            color: #cbd5e1;
-            font-size: 1.10rem;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: white;
-        }
-
-        .contact-btn {
-            background: #3b82f6;
-            color: white;
-            padding: 0.5rem 1.5rem;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background 0.3s;
-        }
-
-        .contact-btn:hover {
-            background: #2563eb;
-        }
-
-        /* Mobile menu */
-        .mobile-menu-btn {
-            display: none;
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-
-        .hero img {
-            max-width: 100%;
-            height: auto;
-            width: min(1080px, 90vw);
-            object-fit: cover;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
-            font-weight: bold;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero h2 {
-            font-size: clamp(3rem, 10vw, 5rem);
-            font-weight: bold;
-            color: #60a5fa;
-            margin-bottom: 2rem;
-        }
-
-        .hero p {
-            font-size: clamp(1rem, 3vw, 1.5rem);
-            color: #9ca3af;
-        }
-
-        /* Video Conveyor */
-        .video-section {
-            padding: 5rem 0;
-            overflow: hidden;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-            margin-bottom: 2.5rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .section-header h2 {
-            font-size: clamp(1.75rem, 5vw, 2.5rem);
-            font-weight: bold;
-        }
-
-        .view-all-btn {
-            background: #374151;
-            color: #e5e7eb;
-            padding: 0.5rem 1.5rem;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background 0.3s;
-            z-index: 10001;
-            position: relative;
-        }
-
-        .view-all-btn:hover {
-            background: #4b5563;
-        }
-
-        .close-grid-btn {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            background: rgba(51, 65, 85, 0.8);
-            color: #94a3b8;
-            padding: 0.5rem;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 2rem;
-            font-weight: normal;
-            z-index: 100002;
-            display: none;
-            transition: all 0.3s;
-            width: 3rem;
-            height: 3rem;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .close-grid-btn:hover {
-            background: rgba(71, 85, 105, 0.8);
-            color: white;
-        }
-
-        .close-grid-btn.show {
-            display: flex;
-        }
-
-        body.grid-active {
-            overflow: hidden;
-        }
-
-        body.grid-active .stats,
-        body.grid-active .values,
-        body.grid-active .tools,
-        body.grid-active .connections,
-        body.grid-active .contact-float,
-        body.grid-active nav,
-        body.grid-active .section-header {
-            display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
-        }
-
-        .conveyor.grid-view::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        .conveyor.grid-view::-webkit-scrollbar-track {
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: 10px;
-        }
-
-        .conveyor.grid-view::-webkit-scrollbar-thumb {
-            background: rgba(96, 165, 250, 0.5);
-            border-radius: 10px;
-        }
-
-        .conveyor.grid-view::-webkit-scrollbar-thumb:hover {
-            background: rgba(96, 165, 250, 0.7);
-        }
-
-        .conveyor-container {
-            position: relative;
-            width: 100%;
-        }
-
-        .conveyor {
-            display: flex;
-            animation: scroll 40s linear infinite;
-        }
-
-        .conveyor.paused {
-            animation-play-state: paused;
-        }
-
-        .conveyor.grid-view {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(min(20rem, 100%), 1fr));
-            gap: 1.5rem;
-            padding: 5rem 2rem 3rem 2rem;
-            animation: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 95%;
-            max-width: 85rem;
-            height: 90vh;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 100000;
-            overflow-y: auto;
-            border-radius: 1.5rem;
-            border: 1px solid rgba(71, 85, 105, 0.5);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-        }
-
-        .conveyor.grid-view::before {
-            content: 'All Projects';
-            position: absolute;
-            top: 2rem;
-            left: 2rem;
-            font-size: clamp(1.5rem, 4vw, 2rem);
-            font-weight: bold;
-            color: white;
-            z-index: 1;
-        }
-
-        .grid-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            z-index: 99999;
-            display: none;
-        }
-
-        .grid-overlay.show {
-            display: block;
-        }
-
-        body.grid-active .raindrop {
-            display: none;
-        }
-
-        .conveyor.grid-view .video-box {
-            margin: 0;
-        }
-
-        .video-box.duplicate {
-            display: flex;
-        }
-
-        .conveyor.grid-view .video-box.duplicate {
-            display: none;
-        }
-
-        @keyframes scroll {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
-.video-box {
-    flex-shrink: 0;
-    width: min(24rem, 90vw);
-    height: 15rem;
-    margin: 0 1rem;
-    background: linear-gradient(135deg, rgba(67, 56, 202, 0.4), rgba(30, 41, 59, 0.6), rgba(88, 28, 135, 0.4));
-    border-radius: 0.75rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid rgba(71, 85, 105, 0.5);
-    cursor: pointer;
-    transition: all 0.3s;
-    backdrop-filter: blur(4px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-
-}
-        .conveyor.grid-view .video-box {
-            width: 100%;
-            height: 14rem;
-            margin: 0;
-        }
-
-        .video-box:hover {
-            transform: scale(1.05);
-            border-color: rgba(59, 130, 246, 0.7);
-        }
-
-        .conveyor.grid-view .video-box:hover {
-            transform: scale(1.02);
-        }
-
-        /* Stats Section */
-        .stats {
-            padding: 5rem 2rem;
-        }
-
-        .stats-container {
-            max-width: 60rem;
-            margin: 0 auto;
-            background: linear-gradient(90deg, rgba(30, 41, 59, 0.6), rgba(51, 65, 85, 0.6));
-            backdrop-filter: blur(16px);
-            border-radius: 1.5rem;
-            padding: 3rem 2rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(71, 85, 105, 0.3);
-        }
-
-        .stat-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .stat-item p {
-            font-size: clamp(1.25rem, 4vw, 2rem);
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: clamp(3rem, 8vw, 4.5rem);
-            font-weight: bold;
-            margin-bottom: 0.75rem;
-        }
-
-        .stat-number.red { 
-            color: #f87171;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .tool-icon {
-            width: min(10rem, 30vw);
-            height: min(10rem, 30vw);
-            border-radius: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s;
-        }
-
-        .tool-icon img {
-            width: 110%;
-            height: auto;
-        }
-
-        /* Values Section */
-        .values {
-            padding: 5rem 2rem;
-            max-width: 75rem;
-            margin: 0 auto;
-        }
-
-        .values-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-            gap: 2rem;
-        }
-
-        .value-card {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(51, 65, 85, 0.6));
-            backdrop-filter: blur(16px);
-            border-radius: 1.5rem;
-            padding: 3rem 2rem;
-            text-align: center;
-            border: 1px solid rgba(71, 85, 105, 0.3);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .value-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-        }
-
-        .value-icon {
-            font-size: clamp(2rem, 6vw, 3rem);
-            margin-bottom: 1.5rem;
-        }
-
-        .value-title {
-            font-size: clamp(1.5rem, 4vw, 2rem);
-            font-weight: bold;
-            color: #60a5fa;
-            margin-bottom: 1rem;
-        }
-
-        .value-description {
-            font-size: clamp(1rem, 2.5vw, 1.125rem);
-            color: #cbd5e1;
-            line-height: 1.6;
-        }
-
-        /* Connections Section */
-        .connections {
-            padding: 5rem 2rem 8rem;
-            text-align: center;
-        }
-
-        .connections h2 {
-            font-size: clamp(2rem, 6vw, 3rem);
-            font-weight: bold;
-            margin-bottom: 3rem;
-            color: white;
-        }
-
-        .connections-container {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            max-width: 50rem;
-            margin: 0 auto;
-        }
-
-        .connection-btn {
-            position: relative;
-            background: rgba(30, 41, 59, 0.6);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(71, 85, 105, 0.3);
-            padding: 1.5rem 3.5rem;
-            border-radius: 3rem;
-            color: white;
-            font-size: clamp(1rem, 2.5vw, 1.25rem);
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-        }
-
-        .connection-btn:hover {
-            background: rgba(51, 65, 85, 0.8);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.7);
-        }
-
-        .tooltip {
-            position: absolute;
-            bottom: 120%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(8px);
-            color: white;
-            padding: 0.75rem 1.25rem;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-            border: 1px solid rgba(71, 85, 105, 0.5);
-            z-index: 100;
-        }
-
-        .tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 6px solid transparent;
-            border-top-color: rgba(15, 23, 42, 0.95);
-        }
-
-        .connection-btn:hover .tooltip {
-            opacity: 1;
-        }
-
-        /* Contact Button */
-        .contact-float {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 4rem;
-            height: 4rem;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            border: none;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-            transition: all 0.3s;
-            z-index: 1000;
-        }
-
-        .contact-float:hover {
-            background: linear-gradient(135deg, #2563eb, #1e40af);
-            transform: scale(1.1);
-        }
-
-        .contact-float span {
-            font-size: 1.875rem;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            nav {
-                padding: 1rem;
-                position: relative;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: rgba(30, 41, 59, 0.95);
-                backdrop-filter: blur(16px);
-                flex-direction: column;
-                padding: 1rem;
-                gap: 1rem;
-                border-radius: 0 0 1rem 1rem;
-                z-index: 1000;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .hero {
-                padding: 2rem 1rem;
-            }
-
-            .video-section {
-                padding: 3rem 0;
-            }
-
-            .section-header {
-                padding: 0 1rem;
-            }
-
-            .stats-container {
-                padding: 2rem 1rem;
-            }
-
-            .stat-item {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .values {
-                padding: 3rem 1rem;
-            }
-
-            .connections {
-                padding: 3rem 1rem 6rem;
-            }
-
-            .connection-btn {
-                padding: 1rem 2rem;
-            }
-
-            .contact-float {
-                bottom: 1rem;
-                right: 1rem;
-                width: 3.5rem;
-                height: 3.5rem;
-            }
-
-            .conveyor.grid-view {
-                padding: 4rem 1rem 2rem 1rem;
-                width: 98%;
-                height: 95vh;
-            }
-
-            .close-grid-btn {
-                top: 1rem;
-                right: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .video-box {
-                height: 12rem;
-            }
-
-            .conveyor.grid-view .video-box {
-                height: 12rem;
-            }
-
-            .connection-btn {
-                padding: 1rem 1.5rem;
-                font-size: 0.9rem;
-            }
-
-            .value-card {
-                padding: 2rem 1.5rem;
-            }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cloisme — Portfolio</title>
+  <meta name="description" content="Cloisme — Video editor portfolio" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lavishly+Yours&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* --- Base / Reset --- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg,#1e293b 0%,#334155 25%,#475569 50%,#334155 75%,#1e293b 100%);
+      color: #fff;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(96,165,250,0.15) 0%, transparent 40%),
+        radial-gradient(ellipse at 85% 85%, rgba(139,92,246,0.12) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 60%);
+      pointer-events: none; z-index: 1;
+    }
+
+    body > * { position: relative; z-index: 2; }
+
+    /* --- Animations / utilities --- */
+    .fade-in, .slide-in-left, .slide-in-right, .scale-in {
+      opacity: 0;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-in.visible { opacity:1; transform: translateY(0); }
+    .slide-in-left { transform: translateX(-50px); }
+    .slide-in-left.visible { opacity:1; transform: translateX(0); }
+    .slide-in-right { transform: translateX(50px); }
+    .slide-in-right.visible { opacity:1; transform: translateX(0); }
+    .scale-in { transform: scale(.8); }
+    .scale-in.visible { opacity:1; transform: scale(1); }
+
+    /* raindrop (decorative) */
+    .raindrop {
+      position: fixed;
+      width: 3px;
+      height: 50px;
+      background: linear-gradient(to bottom, rgba(100,150,200,0) 0%, rgba(100,150,200,0.3) 30%, rgba(130,140,180,0.4) 50%, rgba(100,150,200,0.3) 70%, rgba(100,150,200,0) 100%);
+      border-radius: 2px;
+      animation: fall linear infinite;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.35;
+    }
+    @keyframes fall { 0% { transform: translateY(-50px); } 100% { transform: translateY(calc(100vh + 50px)); } }
+
+    /* --- Navigation --- */
+    nav {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:1.25rem 2rem;
+      gap:1rem;
+    }
+    .logo { font-weight:700; font-size:1.25rem; }
+    .nav-links { display:flex; gap:1.5rem; list-style:none; align-items:center; }
+    .nav-links a { color:#cbd5e1; text-decoration:none; font-size:1.05rem; }
+    .nav-links a:hover, .nav-links a:focus { color: #fff; outline: none; }
+    .contact-btn {
+      background:#3b82f6; color:#fff; padding:.5rem 1.2rem; border-radius:.5rem; border: none; cursor:pointer;
+      transition: background .2s ease, transform .12s ease;
+    }
+    .contact-btn:hover, .contact-btn:focus { background:#2563eb; transform: translateY(-2px); outline: none; }
+
+    .mobile-menu-btn {
+      display:none; background:transparent; border:none; color:#fff; font-size:1.5rem; cursor:pointer;
+    }
+
+    /* --- Hero --- */
+    .hero { text-align:center; padding:3.5rem 1.5rem; }
+    .hero img { width: min(1080px, 90vw); height:auto; display:block; margin: 0 auto 1.25rem; object-fit:cover; border-radius: .75rem; }
+    .hero h1 { font-family: 'Lavishly Yours', cursive; font-size: clamp(2.25rem, 7vw, 4rem); margin-bottom: 1rem; }
+    .hero h2 { font-size: clamp(1.75rem, 6vw, 3.2rem); color: #60a5fa; margin-bottom:.5rem; font-weight:700; }
+    .hero p { color:#9ca3af; font-size:clamp(.95rem, 3vw, 1.125rem); }
+
+    /* --- Video conveyor / grid --- */
+    .video-section { padding: 4rem 0; overflow:hidden; }
+    .section-header { display:flex; justify-content:space-between; align-items:center; padding: 0 2rem; margin-bottom:2rem; gap:1rem; flex-wrap:wrap; }
+    .section-header h2 { font-size: clamp(1.5rem, 4vw, 2.25rem); }
+    .view-all-btn {
+      background:#374151; color:#e5e7eb; padding:.5rem 1rem; border-radius:.5rem; border:none; cursor:pointer; transition: background .2s;
+      z-index:10001; position:relative;
+    }
+    .view-all-btn:hover, .view-all-btn:focus { background:#4b5563; outline: none; }
+
+    .close-grid-btn {
+      position: fixed; top: 1.5rem; right: 1.5rem; background: rgba(51,65,85,0.85); color:#94a3b8; border:none; border-radius:.5rem;
+      width:3rem; height:3rem; display:none; align-items:center; justify-content:center; z-index:100002; cursor:pointer; font-size:1.25rem;
+    }
+    .close-grid-btn.show { display:flex; }
+    .close-grid-btn:focus { outline: 2px solid rgba(96,165,250,0.4); }
+
+    .grid-overlay {
+      position:fixed; inset:0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); z-index:99999; display:none;
+    }
+    .grid-overlay.show { display:block; }
+
+    .conveyor-container { position:relative; width:100%; }
+    .conveyor { display:flex; animation: scroll 40s linear infinite; }
+    .conveyor.paused { animation-play-state: paused; }
+
+    .conveyor.grid-view {
+      display:grid; grid-template-columns: repeat(auto-fill, minmax(min(20rem,100%),1fr));
+      gap:1.25rem; padding:4rem; animation:none; position:fixed; inset:auto; top:50%; left:50%;
+      transform: translate(-50%,-50%); width:95%; max-width:85rem; height:90vh; background: rgba(15,23,42,0.95);
+      backdrop-filter: blur(20px); z-index:100000; overflow-y:auto; border-radius:1rem; border:1px solid rgba(71,85,105,0.45);
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7);
+    }
+    .conveyor.grid-view::before { content: "All Projects"; position:absolute; top:1.25rem; left:1.25rem; font-weight:700; font-size:1.25rem; color:#fff; z-index:1; }
+
+    .conveyor.grid-view::-webkit-scrollbar { width:10px; }
+    .conveyor.grid-view::-webkit-scrollbar-track { background: rgba(30,41,59,0.5); border-radius:10px; }
+    .conveyor.grid-view::-webkit-scrollbar-thumb { background: rgba(96,165,250,0.5); border-radius:10px; }
+    .conveyor.grid-view::-webkit-scrollbar-thumb:hover { background: rgba(96,165,250,0.7); }
+
+    .conveyor.grid-view .video-box { margin:0; }
+    .video-box {
+      flex-shrink:0; width:min(24rem,90vw); height:15rem; margin:0 1rem; border-radius:.75rem;
+      display:flex; align-items:center; justify-content:center; border:2px solid rgba(71,85,105,0.45);
+      cursor:pointer; transition: transform .25s ease, border-color .2s ease; overflow:hidden; background: linear-gradient(135deg, rgba(67,56,202,0.4), rgba(30,41,59,0.6), rgba(88,28,135,0.4)); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5);
+    }
+    .video-box:hover, .video-box:focus { transform: scale(1.05); border-color: rgba(59,130,246,0.7); outline: none; }
+    .conveyor.grid-view .video-box:hover { transform: scale(1.02); }
+
+    .video-box.duplicate { display:flex; }
+    .conveyor.grid-view .video-box.duplicate { display:none; }
+
+    @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* --- Stats --- */
+    .stats { padding: 4rem 2rem; }
+    .stats-container {
+      max-width:60rem; margin:0 auto; background: linear-gradient(90deg, rgba(30,41,59,0.6), rgba(51,65,85,0.6));
+      padding:2.5rem; border-radius:1rem; backdrop-filter: blur(12px); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      border:1px solid rgba(71,85,105,0.28);
+    }
+    .stat-item { display:flex; gap:1.5rem; align-items:center; justify-content:space-around; flex-wrap:wrap; }
+    .stat-number { font-size: clamp(2rem, 6vw, 3.5rem); font-weight:700; color:#f87171; }
+
+    .tool-icon { width: min(10rem, 30vw); height: min(10rem,30vw); border-radius:1rem; display:flex; align-items:center; justify-content:center; }
+    .tool-icon img { width:110%; height:auto; display:block; }
+
+    /* --- Values --- */
+    .values { padding: 4rem 2rem; max-width:75rem; margin:0 auto; }
+    .values-grid { display:grid; gap:1.5rem; grid-template-columns: repeat(auto-fit,minmax(min(300px,100%),1fr)); }
+    .value-card { padding:2rem; border-radius:1rem; background: linear-gradient(135deg, rgba(30,41,59,0.6), rgba(51,65,85,0.6)); border:1px solid rgba(71,85,105,0.3); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5); transition: transform .2s, box-shadow .2s; text-align:center; }
+    .value-card:hover, .value-card:focus { transform: translateY(-6px); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); outline: none; }
+    .value-title { color:#60a5fa; font-weight:700; margin-bottom:.5rem; }
+
+    /* --- Connections --- */
+    .connections { padding:4rem 2rem 6rem; text-align:center; }
+    .connections-container { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; max-width:50rem; margin:0 auto; }
+    .connection-btn {
+      position:relative; padding:1rem 2.5rem; border-radius:3rem; background: rgba(30,41,59,0.6); border:1px solid rgba(71,85,105,0.3);
+      cursor:pointer; transition: transform .12s, background .12s; color:#fff;
+    }
+    .connection-btn:hover, .connection-btn:focus { transform: translateY(-3px); background: rgba(51,65,85,0.8); outline: none; }
+    .tooltip {
+      position:absolute; bottom:120%; left:50%; transform: translateX(-50%); background: rgba(15,23,42,0.95); backdrop-filter: blur(8px);
+      padding:.6rem .9rem; border-radius:.5rem; font-size:.9rem; color:#fff; white-space:nowrap; opacity:0; pointer-events:none; transition: opacity .2s;
+      border:1px solid rgba(71,85,105,0.45); z-index:100;
+    }
+    .connection-btn:hover .tooltip, .connection-btn:focus .tooltip { opacity:1; pointer-events:auto; }
+
+    /* contact floating button */
+    .contact-float {
+      position:fixed; bottom:2rem; right:2rem; width:4rem; height:4rem; border-radius:50%; display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg,#3b82f6,#1d4ed8); border:none; cursor:pointer; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8); z-index:1000; transition: transform .12s;
+    }
+    .contact-float:hover, .contact-float:focus { transform: scale(1.06); outline:none; }
+
+    /* --- Responsive --- */
+    @media (max-width:768px) {
+      nav { padding:1rem; }
+      .mobile-menu-btn { display:block; }
+      .nav-links { display:none; position:absolute; top:100%; left:0; right:0; background: rgba(30,41,59,0.95); backdrop-filter: blur(16px); flex-direction:column; padding:1rem; gap:1rem; border-radius:0 0 1rem 1rem; z-index:1000; }
+      .nav-links.active { display:flex; }
+      .hero { padding:2rem 1rem; }
+      .video-section { padding:3rem 0; }
+      .section-header { padding:0 1rem; }
+      .stats { padding:3rem 1rem; }
+      .values { padding:3rem 1rem; }
+      .connections { padding:3rem 1rem 5rem; }
+      .connection-btn { padding:1rem 1.8rem; }
+      .contact-float { bottom:1rem; right:1rem; width:3.5rem; height:3.5rem; }
+      .conveyor.grid-view { padding:2.5rem 1rem; width:98%; height:95vh; }
+      .close-grid-btn { top:1rem; right:1rem; }
+    }
+    @media (max-width:480px) {
+      .video-box { height:12rem; }
+      .conveyor.grid-view .video-box { height:12rem; }
+      .value-card { padding:1.5rem; }
+    }
+  </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="fade-in">
-        <div class="logo">Cloisme</div>
-        <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
-        <ul class="nav-links" id="navLinks">
-            <li><a href="#home" onclick="closeMenu()">Home</a></li>
-            <li><a href="#work" onclick="closeMenu()">Work</a></li>
-            <li><a href="#values" onclick="closeMenu()">About</a></li>
-            <li><a href="#connections" onclick="closeMenu()">Connections</a></li>
-        </ul>
-        <button class="contact-btn" onclick="document.getElementById('connections').scrollIntoView({behavior: 'smooth'})">Contact Me</button>
-    </nav>
+  <!-- NAV -->
+  <nav class="fade-in" role="navigation" aria-label="Main navigation">
+    <div class="logo">Cloisme</div>
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle navigation">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" onclick="closeMenu()">Home</a></li>
+      <li><a href="#work" onclick="closeMenu()">Work</a></li>
+      <li><a href="#values" onclick="closeMenu()">About</a></li>
+      <li><a href="#connections" onclick="closeMenu()">Connections</a></li>
+    </ul>
+    <button class="contact-btn" onclick="document.getElementById('connections').scrollIntoView({behavior:'smooth'})">Contact Me</button>
+  </nav>
 
-    <!-- Hero Section -->
-    <div class="hero fade-in" id="home">
-        <img src="https://closportfolio.vercel.app/Cloisme.png" alt="Cloisme Portfolio">
-        <h1 style="font-family: Lavishly Yours, cursive; margin-bottom: 50px;">@cloisme</h1>
-        <h2>Video Editor</h2>
-        <p></p>
+  <!-- HERO -->
+  <header class="hero fade-in" id="home" role="banner">
+    <img src="https://closportfolio.vercel.app/Cloisme.png" alt="Cloisme logo / banner" />
+    <h1>@cloisme</h1>
+    <h2>Video Editor</h2>
+    <p class="hero-sub">Short form edits, motion design and colour grading</p>
+  </header>
+
+  <!-- VIDEO CONVEYOR -->
+  <section class="video-section" id="work" aria-labelledby="work-heading">
+    <div class="section-header fade-in">
+      <h2 id="work-heading">My Work</h2>
+      <button class="view-all-btn" id="viewAllBtn" aria-haspopup="dialog" aria-expanded="false">View All</button>
     </div>
 
-    <!-- Video Conveyor Section -->
-    <div class="video-section" id="work">
-        <div class="section-header fade-in">
-            <h2>My Work</h2>
-            <button class="view-all-btn" id="viewAllBtn">View All</button>
+    <button class="close-grid-btn" id="closeGridBtn" aria-label="Close projects view">✕</button>
+    <div class="grid-overlay" id="gridOverlay" tabindex="-1" aria-hidden="true"></div>
+
+    <div class="conveyor-container">
+      <div class="conveyor" id="conveyor" aria-live="polite">
+        <!-- First set -->
+        <div class="video-box scale-in" tabindex="0" aria-label="Project 1">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1hLt_F5rtAyLslKHV-WpWWLiUVU9tIcVe/preview?usp=drive_link" style="border:0" loading="lazy" title="Project 1 preview" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
         </div>
-        
-        <button class="close-grid-btn" id="closeGridBtn">✕</button>
-        <div class="grid-overlay" id="gridOverlay"></div>
-        
-        <div class="conveyor-container">
-            <div class="conveyor" id="conveyor">
-                <!-- First set -->
-                <div class="video-box scale-in"> 
-                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1hLt_F5rtAyLslKHV-WpWWLiUVU9tIcVe/preview?usp=drive_link" style="border:0px;"></iframe>
-                </div>
-                <div class="video-box scale-in"> 
-                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1Kyih3tPCxS8RMZuKUtPWSyVDn7IHRBl_/preview?usp=sharing" style="border:0px;"></iframe>
-                </div>
-                <div class="video-box scale-in">
-                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1sDny3hEQoPtGhTCakh_MwZAGYoK6FpqB/preview?usp=drive_link" style="border:0px;"></iframe>
-                </div>
-                <div class="video-box scale-in">
-                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1FjtdMxqfjJeE6n1TbGZJbarmboytg_Z2/preview?usp=drive_link" style="border:0px;"></iframe>
-                </div>
-                <div class="video-box scale-in">
-                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1mb7vcJn5ReF9-9PjmIeloxs0g6a5KTCN/preview?usp=drive_link" style="border:0px;"></iframe>
-                </div>
-                <div class="video-box scale-in">
-                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1pxU7UeeBQzu13qRL8tZmaetS1KDhRAZh/preview?usp=drive_link" style="border:0px;"></iframe>
-                </div>
-                <div class="video-box scale-in">
-                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1UwWNXBrpXk9xZNnDz1lL69GY3TvDtu-D/preview?usp=drive_link" style="border:0px;"></iframe>
-                </div>
-                <div class="video-box scale-in">
-                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1zutm1aVgzRm0LXVi721zzsB7WiTN56fK/preview?usp=drive_link" style="border:0px;"></iframe>
-                </div>
-                <!-- Duplicate set -->
-                <div class="video-box duplicate"> 
-                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1hLt_F5rtAyLslKHV-WpWWLiUVU9tIcVe/preview?usp=drive_link" style="border:0px;"></iframe>
-                </div>
-                <div class="video-box duplicate"> 
-                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1Kyih3tPCxS8RMZuKUtPWSyVDn7IHRBl_/preview?usp=sharing" style="border:0px;"></iframe>
-                </div>
-                <div class="video-box duplicate">
-                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1mb7vcJn5ReF9-9PjmIeloxs0g6a5KTCN/preview?usp=drive_link" style="border:0px;"></iframe>
-                </div>
-                <div class="video-box duplicate">
-                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1sDny3hEQoPtGhTCakh_MwZAGYoK6FpqB/preview?usp=drive_link" style="border:0px;"></iframe>
-                </div>
-                <div class="video-box duplicate">
-                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1FjtdMxqfjJeE6n1TbGZJbarmboytg_Z2/preview?usp=drive_link" style="border:0px;"></iframe>
-                </div>
-                <div class="video-box duplicate">
-                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/10Di_H9Jrtn_IHZDLVDMFBPzVxbHf1z7c/preview?usp=drive_link" style="border:0px;"></iframe>
-                </div>
-                <div class="video-box duplicate">
-                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1pxU7UeeBQzu13qRL8tZmaetS1KDhRAZh/preview?usp=drive_link" style="border:0px;"></iframe>
-                </div>
-                <div class="video-box duplicate">
-                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1UwWNXBrpXk9xZNnDz1lL69GY3TvDtu-D/preview?usp=drive_link" style="border:0px;"></iframe>
-                </div>
-                <div class="video-box duplicate">
-                    <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1zutm1aVgzRm0LXVi721zzsB7WiTN56fK/preview?usp=drive_link" style="border:0px;"></iframe>
-                </div>
-            </div>
+        <div class="video-box scale-in" tabindex="0" aria-label="Project 2">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1Kyih3tPCxS8RMZuKUtPWSyVDn7IHRBl_/preview?usp=sharing" style="border:0" loading="lazy" title="Project 2 preview" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
         </div>
+        <div class="video-box scale-in" tabindex="0" aria-label="Project 3">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1sDny3hEQoPtGhTCakh_MwZAGYoK6FpqB/preview?usp=drive_link" style="border:0" loading="lazy" title="Project 3 preview" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+        </div>
+        <div class="video-box scale-in" tabindex="0" aria-label="Project 4">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1FjtdMxqfjJeE6n1TbGZJbarmboytg_Z2/preview?usp=drive_link" style="border:0" loading="lazy" title="Project 4 preview" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+        </div>
+        <div class="video-box scale-in" tabindex="0" aria-label="Project 5">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1mb7vcJn5ReF9-9PjmIeloxs0g6a5KTCN/preview?usp=drive_link" style="border:0" loading="lazy" title="Project 5 preview" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+        </div>
+        <div class="video-box scale-in" tabindex="0" aria-label="Project 6">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1pxU7UeeBQzu13qRL8tZmaetS1KDhRAZh/preview?usp=drive_link" style="border:0" loading="lazy" title="Project 6 preview" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+        </div>
+        <div class="video-box scale-in" tabindex="0" aria-label="Project 7">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1UwWNXBrpXk9xZNnDz1lL69GY3TvDtu-D/preview?usp=drive_link" style="border:0" loading="lazy" title="Project 7 preview" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+        </div>
+        <div class="video-box scale-in" tabindex="0" aria-label="Project 8">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1zutm1aVgzRm0LXVi721zzsB7WiTN56fK/preview?usp=drive_link" style="border:0" loading="lazy" title="Project 8 preview" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+        </div>
+        <div class="video-box scale-in" tabindex="0" aria-label="Project 9">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1QQJgQDo1C365VLso12vU18QipBv-Azik/preview?usp=drive_link" style="border:0" loading="lazy" title="Project 9 preview" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+        </div>
+
+        <!-- Duplicate set (keeps loop seamless) -->
+        <div class="video-box duplicate" aria-hidden="true">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1hLt_F5rtAyLslKHV-WpWWLiUVU9tIcVe/preview?usp=drive_link" style="border:0" loading="lazy" title="Project 1 preview duplicate" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+        </div>
+        <div class="video-box duplicate" aria-hidden="true">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1Kyih3tPCxS8RMZuKUtPWSyVDn7IHRBl_/preview?usp=sharing" style="border:0" loading="lazy" title="Project 2 preview duplicate" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+        </div>
+        <div class="video-box duplicate" aria-hidden="true">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1mb7vcJn5ReF9-9PjmIeloxs0g6a5KTCN/preview?usp=drive_link" style="border:0" loading="lazy" title="Project 5 preview duplicate" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+        </div>
+        <div class="video-box duplicate" aria-hidden="true">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1sDny3hEQoPtGhTCakh_MwZAGYoK6FpqB/preview?usp=drive_link" style="border:0" loading="lazy" title="Project 3 preview duplicate" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+        </div>
+        <div class="video-box duplicate" aria-hidden="true">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1FjtdMxqfjJeE6n1TbGZJbarmboytg_Z2/preview?usp=drive_link" style="border:0" loading="lazy" title="Project 4 preview duplicate" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+        </div>
+        <div class="video-box duplicate" aria-hidden="true">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/10Di_H9Jrtn_IHZDLVDMFBPzVxbHf1z7c/preview?usp=drive_link" style="border:0" loading="lazy" title="Project X preview duplicate" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+        </div>
+        <div class="video-box duplicate" aria-hidden="true">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1pxU7UeeBQzu13qRL8tZmaetS1KDhRAZh/preview?usp=drive_link" style="border:0" loading="lazy" title="Project 6 preview duplicate" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+        </div>
+        <div class="video-box duplicate" aria-hidden="true">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1UwWNXBrpXk9xZNnDz1lL69GY3TvDtu-D/preview?usp=drive_link" style="border:0" loading="lazy" title="Project 7 preview duplicate" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+        </div>
+        <div class="video-box duplicate" aria-hidden="true">
+          <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1zutm1aVgzRm0LXVi721zzsB7WiTN56fK/preview?usp=drive_link" style="border:0" loading="lazy" title="Project 8 preview duplicate" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+        </div>
+
+      </div>
     </div>
+  </section>
 
-    <!-- Stats Section -->
-    <div class="stats">
-        <div class="stats-container fade-in">
-            <div class="stat-item">
-                <div class="tool-icon slide-in-left">
-                    <img src="DaVinci_Resolve_Studio.png" alt="DaVinci Resolve">
-                </div>
-                <div class="text-container slide-in-right">
-                    <div class="stat-number red">2+</div>
-                    <p>years of experience</p>
-                    <div class="stat-label"></div>
-                </div>
-            </div>
+  <!-- STATS -->
+  <section class="stats" aria-labelledby="stats-heading">
+    <div class="stats-container fade-in" id="stats">
+      <div class="stat-item">
+        <div class="tool-icon slide-in-left" aria-hidden="true">
+          <img src="DaVinci_Resolve_Studio.png" alt="DaVinci Resolve logo" />
         </div>
-    </div>
-
-    <!-- About Section -->
-    <div class="values" id="values">
-        <div class="values-grid">
-            <div class="value-card fade-in">
-                <div class="value-icon">✏️</div>
-                <div class="value-title">Creativity</div>
-                <div class="value-description">Unique and worthy</div>
-            </div>
-            <div class="value-card fade-in">
-                <div class="value-icon">👁️</div>
-                <div class="value-title">Attention</div>
-                <div class="value-description">Creating the best in every frame</div>
-            </div>
-            <div class="value-card fade-in">
-                <div class="value-icon">🚀</div>
-                <div class="value-title">Delivery</div>
-                <div class="value-description">Speed and high quality</div>
-            </div>
+        <div class="text-container slide-in-right">
+          <div class="stat-number red">2+</div>
+          <p>years of experience</p>
         </div>
+      </div>
     </div>
+  </section>
 
-    <!-- Connections Section -->
-    <div class="connections" id="connections">
-        <h2 class="fade-in">Connections</h2>
-        <div class="connections-container">
-            <button class="connection-btn scale-in">
-                Discord
-                <span class="tooltip">@cloisme</span>
-            </button>
-            <button class="connection-btn scale-in">
-                Mail
-                <span class="tooltip">contact.cloisme@gmail.com</span>
-            </button>
-        </div>
+  <!-- VALUES -->
+  <section class="values" id="values" aria-labelledby="values-heading">
+    <div class="values-grid">
+      <div class="value-card fade-in" tabindex="0">
+        <div class="value-icon" aria-hidden="true">✏️</div>
+        <div class="value-title">Creativity</div>
+        <div class="value-description">Unique and worthy</div>
+      </div>
+      <div class="value-card fade-in" tabindex="0">
+        <div class="value-icon" aria-hidden="true">👁️</div>
+        <div class="value-title">Attention</div>
+        <div class="value-description">Creating the best in every frame</div>
+      </div>
+      <div class="value-card fade-in" tabindex="0">
+        <div class="value-icon" aria-hidden="true">🚀</div>
+        <div class="value-title">Delivery</div>
+        <div class="value-description">Speed and high quality</div>
+      </div>
     </div>
+  </section>
 
-    <!-- Contact Button -->
-    <button class="contact-float" onclick="document.getElementById('connections').scrollIntoView({behavior: 'smooth'})">
-        <span>✉️</span>
-    </button>
+  <!-- CONNECTIONS -->
+  <section class="connections" id="connections" aria-labelledby="connections-heading">
+    <h2 id="connections-heading" class="fade-in">Connections</h2>
+    <div class="connections-container">
+      <button class="connection-btn scale-in" aria-describedby="discord-tip">
+        Discord
+        <span class="tooltip" id="discord-tip" role="tooltip">@cloisme</span>
+      </button>
+      <button class="connection-btn scale-in" aria-describedby="mail-tip">
+        Mail
+        <span class="tooltip" id="mail-tip" role="tooltip">contact.cloisme@gmail.com</span>
+      </button>
+    </div>
+  </section>
 
-    <script>
-        const conveyor = document.getElementById('conveyor');
-        const videoBoxes = document.querySelectorAll('.video-box');
-        const viewAllBtn = document.getElementById('viewAllBtn');
-        const closeGridBtn = document.getElementById('closeGridBtn');
-        const gridOverlay = document.getElementById('gridOverlay');
-        let isGridView = false;
+  <!-- Floating contact -->
+  <button class="contact-float" aria-label="Scroll to contact" onclick="document.getElementById('connections').scrollIntoView({behavior:'smooth'})">
+    <span aria-hidden="true">✉️</span>
+  </button>
 
-        // Mobile menu toggle
-        function toggleMenu() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
-        }
+  <script>
+    // Elements
+    const conveyor = document.getElementById('conveyor');
+    const videoBoxes = document.querySelectorAll('.video-box');
+    const viewAllBtn = document.getElementById('viewAllBtn');
+    const closeGridBtn = document.getElementById('closeGridBtn');
+    const gridOverlay = document.getElementById('gridOverlay');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.getElementById('navLinks');
+    let isGridView = false;
 
-        function closeMenu() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.remove('active');
-        }
+    // Mobile menu toggle
+    function toggleMenu() {
+      if (!navLinks) return;
+      navLinks.classList.toggle('active');
+      const expanded = navLinks.classList.contains('active');
+      mobileMenuBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    }
+    function closeMenu() {
+      if (!navLinks) return;
+      navLinks.classList.remove('active');
+      mobileMenuBtn.setAttribute('aria-expanded', 'false');
+    }
+    mobileMenuBtn?.addEventListener('click', toggleMenu);
 
-        // Scroll animations - triggers EVERY TIME element enters viewport
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
+    // IntersectionObserver for animations (safe fallback)
+    function setupObserver() {
+      const animated = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in');
+      if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                } else {
-                    // Remove class when element leaves viewport so it can animate again
-                    entry.target.classList.remove('visible');
-                }
-            });
-        }, observerOptions);
+          entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+            else entry.target.classList.remove('visible');
+          });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        animated.forEach(el => observer.observe(el));
+      } else {
+        // fallback: reveal all
+        animated.forEach(el => el.classList.add('visible'));
+      }
+    }
 
-        // Observe all animated elements
-        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in').forEach(el => {
-            observer.observe(el);
+    // Pause conveyor on hover/focus and touch
+    function enableConveyorInteractions() {
+      videoBoxes.forEach(box => {
+        box.addEventListener('mouseenter', () => {
+          if (!isGridView) conveyor.classList.add('paused');
+        });
+        box.addEventListener('mouseleave', () => {
+          if (!isGridView) conveyor.classList.remove('paused');
+        });
+        box.addEventListener('focus', () => {
+          if (!isGridView) conveyor.classList.add('paused');
+        });
+        box.addEventListener('blur', () => {
+          if (!isGridView) conveyor.classList.remove('paused');
         });
 
-        // Video conveyor functionality
-        videoBoxes.forEach(box => {
-            box.addEventListener('mouseenter', () => {
-                if (!isGridView) {
-                    conveyor.classList.add('paused');
-                }
-            });
+        // Touch: pause on touchstart, resume on touchend
+        box.addEventListener('touchstart', () => {
+          conveyor.classList.add('paused');
+        }, {passive:true});
+        box.addEventListener('touchend', () => {
+          if (!isGridView) conveyor.classList.remove('paused');
+        }, {passive:true});
+      });
+    }
 
-            box.addEventListener('mouseleave', () => {
-                if (!isGridView) {
-                    conveyor.classList.remove('paused');
-                }
-            });
-        });
+    // Open grid view
+    function openGridView() {
+      isGridView = true;
+      conveyor.classList.add('grid-view');
+      closeGridBtn.classList.add('show');
+      gridOverlay.classList.add('show');
+      document.body.classList.add('grid-active');
+      viewAllBtn.setAttribute('aria-expanded','true');
+      // move keyboard focus into the grid container for accessibility
+      closeGridBtn.focus();
+    }
 
-        viewAllBtn.addEventListener('click', () => {
-            isGridView = true;
-            conveyor.classList.add('grid-view');
-            closeGridBtn.classList.add('show');
-            gridOverlay.classList.add('show');
-            document.body.classList.add('grid-active');
-        });
+    // Close grid view
+    function closeGridView() {
+      isGridView = false;
+      conveyor.classList.remove('grid-view');
+      closeGridBtn.classList.remove('show');
+      gridOverlay.classList.remove('show');
+      document.body.classList.remove('grid-active');
+      viewAllBtn.setAttribute('aria-expanded','false');
+      viewAllBtn.focus();
+    }
 
-        closeGridBtn.addEventListener('click', () => {
-            isGridView = false;
-            conveyor.classList.remove('grid-view');
-            closeGridBtn.classList.remove('show');
-            gridOverlay.classList.remove('show');
-            document.body.classList.remove('grid-active');
-        });
+    // Bind grid toggles
+    viewAllBtn?.addEventListener('click', openGridView);
+    closeGridBtn?.addEventListener('click', closeGridView);
+    gridOverlay?.addEventListener('click', closeGridView);
 
-        gridOverlay.addEventListener('click', () => {
-            isGridView = false;
-            conveyor.classList.remove('grid-view');
-            closeGridBtn.classList.remove('show');
-            gridOverlay.classList.remove('show');
-            document.body.classList.remove('grid-active');
-        });
+    // Escape key closes grid
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isGridView) closeGridView();
+    });
 
-        // Create raindrops
-        function createRaindrops() {
-            const raindropCount = 70;
-            
-            for (let i = 0; i < raindropCount; i++) {
-                const raindrop = document.createElement('div');
-                raindrop.className = 'raindrop';
-                raindrop.style.left = Math.random() * 100 + '%';
-                raindrop.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
-                document.body.insertBefore(raindrop, document.body.firstChild);
-            }
-        }
+    // Create decorative raindrops (lightweight)
+    function createRaindrops(count = 60) {
+      const frag = document.createDocumentFragment();
+      for (let i = 0; i < count; i++) {
+        const d = document.createElement('div');
+        d.className = 'raindrop';
+        d.style.left = Math.random() * 100 + '%';
+        d.style.animationDuration = (Math.random() * 1.8 + 2.2) + 's';
+        d.style.opacity = (Math.random() * 0.45 + 0.2).toString();
+        frag.appendChild(d);
+      }
+      document.body.insertBefore(frag, document.body.firstChild);
+    }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', createRaindrops);
-        } else {
-            createRaindrops();
-        }
-    </script>
+    // DOM ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+
+    function init() {
+      setupObserver();
+      enableConveyorInteractions();
+      createRaindrops(50);
+      // make sure mobile links close menu on click (works for keyboard too)
+      document.querySelectorAll('#navLinks a').forEach(a => a.addEventListener('click', closeMenu));
+
+      // Prevent pointer events on overlay when not visible
+      gridOverlay.setAttribute('aria-hidden', 'true');
+      const observer = new MutationObserver(() => {
+        const visible = gridOverlay.classList.contains('show');
+        gridOverlay.setAttribute('aria-hidden', visible ? 'false' : 'true');
+      });
+      observer.observe(gridOverlay, { attributes: true, attributeFilter: ['class'] });
+    }
+  </script>
 </body>
 </html>
-
