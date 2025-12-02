@@ -20,7 +20,7 @@
         }
 
         body {
-            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
             background: linear-gradient(135deg,
                 #1e293b 0%,
                 #334155 25%,
@@ -80,7 +80,7 @@
                 rgba(100, 150, 200, 0) 100%);
             border-radius: 2px;
             animation: fall linear infinite;
-            z-index: 1;
+            z-index: 1; /* behind content (body > *) but above background */
             pointer-events: none;
             opacity: 0.35;
             will-change: transform;
@@ -131,7 +131,7 @@
         /* Hero Section */
         .hero { text-align: center; padding: 4rem 2rem; }
         .hero img { max-width: 100%; height: auto; width: min(1080px, 90vw); object-fit: cover; }
-        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: bold; margin-bottom: 50px; font-family: 'Lavishly Yours', cursive; }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: bold; margin-bottom: 50px; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif; }
         .hero h2 { font-size: clamp(3rem, 10vw, 5rem); font-weight: bold; color: #60a5fa; margin-bottom: 2rem; }
         .hero p { font-size: clamp(1rem, 3vw, 1.5rem); color: #9ca3af; }
 
@@ -417,13 +417,20 @@
             .connection-btn { padding: 1rem 1.5rem; font-size: 0.9rem; }
             .value-card { padding: 2rem 1.5rem; }
         }
-    </style>
+      /* Softer Apple-like text rendering */
+  html, body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+</style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="fade-in">
+    <nav class="fade-in" aria-label="Primary">
         <div class="logo">Cloisme</div>
-        <button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+        <button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Toggle menu" aria-expanded="false" id="mobileMenuBtn">☰</button>
         <ul class="nav-links" id="navLinks">
             <li><a href="#home" onclick="closeMenu()">Home</a></li>
             <li><a href="#work" onclick="closeMenu()">Work</a></li>
@@ -438,14 +445,14 @@
         <img src="https://closportfolio.vercel.app/Cloisme.png" alt="Cloisme Portfolio screenshot" />
         <h1 id="hero-title">@cloisme</h1>
         <h2>Video Editor</h2>
-        <p class="hero-sub"></p>
+        <p class="hero-sub">Creative edits & fast delivery</p>
     </section>
 
     <!-- Video Conveyor Section -->
     <section class="video-section" id="work">
         <div class="section-header fade-in">
             <h2>My Work</h2>
-            <button class="view-all-btn" id="viewAllBtn" aria-controls="conveyor">View All</button>
+            <button class="view-all-btn" id="viewAllBtn" aria-controls="conveyor" aria-expanded="false">View All</button>
         </div>
 
         <button class="close-grid-btn" id="closeGridBtn" aria-label="Close grid">✕</button>
@@ -482,32 +489,32 @@
                     <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1QQJgQDo1C365VLso12vU18QipBv-Azik/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 9"></iframe>
                 </div>
 
-                <!-- Duplicate set to create smooth infinite scroll -->
-                <div class="video-box duplicate">
+                <!-- Duplicate set to create smooth infinite scroll (duplicates hidden in grid view) -->
+                <div class="video-box duplicate" aria-hidden="true">
                     <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1hLt_F5rtAyLslKHV-WpWWLiUVU9tIcVe/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 1 (dup)"></iframe>
                 </div>
-                <div class="video-box duplicate">
+                <div class="video-box duplicate" aria-hidden="true">
                     <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1Kyih3tPCxS8RMZuKUtPWSyVDn7IHRBl_/preview?usp=sharing" style="border:0;" loading="lazy" title="Project 2 (dup)"></iframe>
                 </div>
-                <div class="video-box duplicate">
+                <div class="video-box duplicate" aria-hidden="true">
                     <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1mb7vcJn5ReF9-9PjmIeloxs0g6a5KTCN/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 5 (dup)"></iframe>
                 </div>
-                <div class="video-box duplicate">
+                <div class="video-box duplicate" aria-hidden="true">
                     <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1sDny3hEQoPtGhTCakh_MwZAGYoK6FpqB/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 3 (dup)"></iframe>
                 </div>
-                <div class="video-box duplicate">
+                <div class="video-box duplicate" aria-hidden="true">
                     <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1FjtdMxqfjJeE6n1TbGZJbarmboytg_Z2/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 4 (dup)"></iframe>
                 </div>
-                <div class="video-box duplicate">
+                <div class="video-box duplicate" aria-hidden="true">
                     <iframe width="100%" height="100%" src="https://drive.google.com/file/d/10Di_H9Jrtn_IHZDLVDMFBPzVxbHf1z7c/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project X (dup)"></iframe>
                 </div>
-                <div class="video-box duplicate">
+                <div class="video-box duplicate" aria-hidden="true">
                     <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1pxU7UeeBQzu13qRL8tZmaetS1KDhRAZh/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 6 (dup)"></iframe>
                 </div>
-                <div class="video-box duplicate">
+                <div class="video-box duplicate" aria-hidden="true">
                     <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1UwWNXBrpXk9xZNnDz1lL69GY3TvDtu-D/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 7 (dup)"></iframe>
                 </div>
-                <div class="video-box duplicate">
+                <div class="video-box duplicate" aria-hidden="true">
                     <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1zutm1aVgzRm0LXVi721zzsB7WiTN56fK/preview?usp=drive_link" style="border:0;" loading="lazy" title="Project 8 (dup)"></iframe>
                 </div>
             </div>
@@ -576,19 +583,23 @@
         const viewAllBtn = document.getElementById('viewAllBtn');
         const closeGridBtn = document.getElementById('closeGridBtn');
         const gridOverlay = document.getElementById('gridOverlay');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 
         // Convert NodeList to array for robust iteration across browsers
-        const videoBoxes = Array.from(document.querySelectorAll('.video-box'));
+        // We'll query inside DOMContentLoaded to ensure elements exist
 
         // Mobile menu toggle
         function toggleMenu() {
             const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
+            const expanded = navLinks.classList.toggle('active');
+            // reflect state for screen readers
+            mobileMenuBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
         }
 
         function closeMenu() {
             const navLinks = document.getElementById('navLinks');
             navLinks.classList.remove('active');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
         }
 
         // Scroll animations - triggers EVERY time element enters viewport
@@ -608,25 +619,63 @@
             });
         }, observerOptions);
 
-        // Observe all animated elements
-        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in').forEach(el => {
-            observer.observe(el);
-        });
+        // Observe all animated elements once DOM is ready
+        function setupObservers() {
+            document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
 
         // Video conveyor functionality: pause on hover (only when not in grid view)
         let isGridView = false;
-        videoBoxes.forEach(box => {
-            box.addEventListener('mouseenter', () => {
-                if (!isGridView) {
-                    conveyor.classList.add('paused');
-                }
+
+        function setupVideoHover() {
+            const videoBoxes = Array.from(document.querySelectorAll('.video-box'));
+            videoBoxes.forEach(box => {
+                box.addEventListener('mouseenter', () => {
+                    if (!isGridView) {
+                        conveyor.classList.add('paused');
+                    }
+                });
+                box.addEventListener('mouseleave', () => {
+                    if (!isGridView) {
+                        conveyor.classList.remove('paused');
+                    }
+                });
+                // Make each video-box focusable for keyboard users
+                box.setAttribute('tabindex', '0');
             });
-            box.addEventListener('mouseleave', () => {
-                if (!isGridView) {
-                    conveyor.classList.remove('paused');
+        }
+
+        // Accessibility: trap focus within grid when active (simple implementation)
+        function trapFocusInGrid() {
+            const focusableSelector = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+            const container = document.querySelector('.conveyor.grid-view');
+            if (!container) return;
+            const focusable = Array.from(container.querySelectorAll(focusableSelector)).filter(el => el.offsetParent !== null);
+            if (focusable.length === 0) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+
+            function handleKey(e) {
+                if (!isGridView) return;
+                if (e.key === 'Tab') {
+                    if (e.shiftKey && document.activeElement === first) {
+                        e.preventDefault();
+                        last.focus();
+                    } else if (!e.shiftKey && document.activeElement === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
                 }
-            });
-        });
+            }
+            document.addEventListener('keydown', handleKey);
+
+            // return remover so we can clean up later
+            return () => document.removeEventListener('keydown', handleKey);
+        }
+
+        let removeTrap = null;
 
         // View all (grid) controls
         viewAllBtn.addEventListener('click', () => {
@@ -635,7 +684,11 @@
             closeGridBtn.classList.add('show');
             gridOverlay.classList.add('show');
             document.body.classList.add('grid-active');
-            // trap focus could be added here for a11y improvements
+            viewAllBtn.setAttribute('aria-expanded', 'true');
+            gridOverlay.setAttribute('aria-hidden', 'false');
+            closeGridBtn.focus();
+            // setup focus trap
+            removeTrap = trapFocusInGrid();
         });
 
         function closeGrid() {
@@ -644,10 +697,27 @@
             closeGridBtn.classList.remove('show');
             gridOverlay.classList.remove('show');
             document.body.classList.remove('grid-active');
+            viewAllBtn.setAttribute('aria-expanded', 'false');
+            gridOverlay.setAttribute('aria-hidden', 'true');
+            viewAllBtn.focus();
+            // clean up trap
+            if (typeof removeTrap === 'function') removeTrap();
+            removeTrap = null;
         }
 
         closeGridBtn.addEventListener('click', closeGrid);
         gridOverlay.addEventListener('click', closeGrid);
+
+        // Close grid with Escape key for accessibility
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isGridView) {
+                closeGrid();
+            }
+        });
+
+        // Pause conveyor when window not focused (save CPU)
+        window.addEventListener('blur', () => conveyor && conveyor.classList.add('paused'));
+        window.addEventListener('focus', () => conveyor && conveyor.classList.remove('paused'));
 
         // Create raindrops (lightweight)
         function createRaindrops() {
@@ -670,11 +740,29 @@
             document.body.insertBefore(fragment, document.body.firstChild);
         }
 
+        // Initialize after DOM ready
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', createRaindrops);
+            document.addEventListener('DOMContentLoaded', () => {
+                setupObservers();
+                setupVideoHover();
+                createRaindrops();
+            });
         } else {
+            setupObservers();
+            setupVideoHover();
             createRaindrops();
         }
+
+        // Improve small-screen keyboard behavior: close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const nav = document.getElementById('navLinks');
+            if (!nav) return;
+            if (!nav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                closeMenu();
+            }
+        });
+
+        // Make inline iframes more accessible: ensure titles present (they already are)
     </script>
 </body>
 </html>
